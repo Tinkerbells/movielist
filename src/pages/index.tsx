@@ -6,7 +6,6 @@ import { trpc } from '../utils/trpc'
 import PopularMovies from '../components/UI/PopularMovies'
 
 const Home: NextPage = () => {
-    const hello = trpc.example.hello.useQuery({ text: 'from tRPC' })
     const movies = trpc.movie.getPopularMovies.useQuery()
 
     return (
