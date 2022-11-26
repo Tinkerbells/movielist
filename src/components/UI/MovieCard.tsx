@@ -16,17 +16,17 @@ const MovieCard: React.FC<MovieCardProps> = ({
     poster,
 }) => {
     return (
-        <div className="relative flex cursor-pointer flex-col active:cursor-grabbing">
+        <div className="relative flex cursor-pointer flex-col hover:scale-105 active:cursor-grabbing">
             <img
                 src={`https://image.tmdb.org/t/p/w500/${poster}`}
                 alt={title}
                 draggable="false"
-                className="rounded-lg"
+                className="rounded-lg shadow-lg shadow-darkGray"
             />
-            <p className="mt-7 mr-7 text-lg font-bold text-white" title={title}>
+            <p className="mt-4 mr-7 text-lg font-bold text-white" title={title}>
                 {title}
             </p>
-            <p className="absolute bottom-16 right-2 flex h-12 w-12 items-center justify-center gap-1 rounded-full border-2 border-red bg-darkGray text-sm font-bold text-white">
+            <p className="absolute bottom-12 right-2 flex h-12 w-12 items-center justify-center gap-1 rounded-full border-2 border-red bg-darkGray text-sm font-bold text-white">
                 {vote}
                 <FaStar className="mb-[2px] h-2 w-2" />
             </p>
