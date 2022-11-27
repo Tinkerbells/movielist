@@ -18,7 +18,6 @@ const NavLink: React.FC<NavLinkProps> = ({ href, children }) => {
 
     return (
         <Link href={href} className={className}>
-            {sessionData && <div>Hello</div>}
             {children}
         </Link>
     )
