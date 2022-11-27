@@ -40,7 +40,9 @@ const MovieCard: React.FC<MovieCardProps> = ({
                 animate={{
                     y: isLiked ? 0 : -1000,
                 }}
-                className="absolute grid h-full w-full place-items-center"
+                className={`absolute grid h-full w-full place-items-center ${
+                    isLiked ? 'visible' : 'hidden'
+                }`}
             >
                 <FaHeart className="mb-20 h-16 w-16 text-red drop-shadow-lg" />
             </motion.div>
