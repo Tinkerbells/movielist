@@ -19,6 +19,7 @@
     "@trpc/server": "^10.0.0",
     "axios": "^1.2.0",
     "blaze-slider": "^1.8.1",
+    "framer-motion": "^7.6.12",
     "next": "13.0.2",
     "next-auth": "^4.15.1",
     "react": "18.2.0",

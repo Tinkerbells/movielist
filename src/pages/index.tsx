@@ -16,7 +16,7 @@ const Home: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className="absolute z-[-1] h-full w-full ">
-                <div className="mt-24 ml-72 mr-24">
+                <div className="mt-24 ml-72 mr-12">
                     {!movies.data ? (
                         <div>Loading...</div>
                     ) : (
