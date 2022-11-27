@@ -1,6 +1,7 @@
 import React from 'react'
 import NavLink from './NavLink'
-import { FaBook, FaHome, FaPlusSquare, FaSearch } from 'react-icons/fa'
+import { FaBook, FaHome, FaPlusSquare } from 'react-icons/fa'
+import { MdSubscriptions } from 'react-icons/md'
 import logo from '../../assets/img/Logo.svg'
 import MovieListCard from '../UI/MovieListCard'
 import CustomButton from '../UI/CustomButton'
@@ -14,8 +15,8 @@ const Sidebar = () => {
                     Home
                 </NavLink>
                 <NavLink href="/search">
-                    <FaSearch />
-                    Search
+                    <MdSubscriptions />
+                    Subscriptions
                 </NavLink>
                 <NavLink href="/library">
                     <FaBook />
