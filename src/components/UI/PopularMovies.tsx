@@ -14,10 +14,10 @@ const PopularMovies: React.FC<PopularMoviesProps> = ({ movies }) => {
         all: {
             enableAutoplay: true,
             draggable: true,
-            autoplayInterval: 2000,
+            autoplayInterval: 1500,
             stopAutoplayOnInteraction: false,
             slidesToShow: 6,
-            slidesToScroll: 2,
+            slidesToScroll: 1,
         },
         '(max-width: 480px)': {
             slidesToShow: 1,
@@ -43,17 +43,18 @@ const PopularMovies: React.FC<PopularMoviesProps> = ({ movies }) => {
     })
     return (
         <div className="blaze-slider" ref={elRef}>
-            <p className="mb-4 text-base tracking-widest text-lightGray">
+            <p className="mb-2 ml-2 text-base tracking-widest text-lightGray">
                 POPULAR MOVIES
             </p>
             <div className="blaze-container">
                 <div className="blaze-track-container">
-                    <div className="blaze-track">
+                    <div className="blaze-track mb-4 px-2">
                         {movies.results.map((movie) => (
                             <MovieCard
                                 title={movie.title}
                                 vote={movie.vote_average}
                                 poster={movie.poster_path}
+                                releaseDate={movie.release_date}
                             />
                         ))}
                     </div>
