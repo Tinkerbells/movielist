@@ -25,22 +25,8 @@ const Sidebar = () => {
             <p className="mx-7 mt-7 h-14 border-t-[1px] border-darkGray py-7 px-2 text-base tracking-widest text-lightGray">
                 MY LISTS
             </p>
-            <div className="mt-7 max-h-[470px] w-full overflow-y-auto px-7">
-                <div className="flex flex-col gap-4">
-                    <MovieListCard />
-                    <MovieListCard />
-                    <MovieListCard />
-                    <MovieListCard />
-                    <MovieListCard />
-                    <MovieListCard />
-                    <MovieListCard />
-                    <MovieListCard />
-                    <MovieListCard />
-                    <MovieListCard />
-                    <MovieListCard />
-                    <MovieListCard />
-                    <MovieListCard />
-                </div>
+            <div className="max-h-[470px] w-full overflow-y-auto px-7">
+                <div className="flex flex-col gap-4"></div>
             </div>
             <CustomButton styles="bg-red w-[calc(100%-56px)] h-11 my-7 ml-7 gap-2 text-base text-primary">
                 <FaPlusSquare /> Create List
