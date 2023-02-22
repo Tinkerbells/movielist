@@ -1,4 +1,4 @@
-import { Burger } from "@/UI/icons/Burger";
+import { BurgerIcon } from "@/UI/icons/BurgerIcon";
 import { HomeIcon } from "@/UI/icons/HomeIcon";
 import { useState } from "react";
 const Sidebar = () => {
@@ -9,7 +9,7 @@ const Sidebar = () => {
         className="btn-ghost btn-circle btn absolute left-0 top-0 z-50 m-2.5"
         onClick={() => setIsVisible(!isVisible)}
       >
-        <Burger />
+        <BurgerIcon />
       </button>
       {isVisible ? (
         <div className="absolute left-0 top-0 z-40 h-full w-60 bg-base-100">
