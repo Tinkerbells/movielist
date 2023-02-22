@@ -1,4 +1,4 @@
-export const Burger = (props: React.ComponentPropsWithRef<"svg">) => (
+export const BurgerIcon = (props: React.ComponentPropsWithRef<"svg">) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
