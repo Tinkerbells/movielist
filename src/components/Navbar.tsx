@@ -1,4 +1,5 @@
 import { useSession, signOut } from "next-auth/react";
+import NavbarSearch from "./NavbarSearch";
 
 const Navbar = () => {
   const { data: sessionData } = useSession();
@@ -6,7 +7,7 @@ const Navbar = () => {
     <div className="navbar absolute top-0 left-0 bg-base-100">
       <div className="navbar-start"></div>
       <div className="navbar-center">
-        <input placeholder="Search..." />
+        <NavbarSearch />
       </div>
       <div className="flex-2 navbar-end gap-2">
         <div className="dropdown-end dropdown">
