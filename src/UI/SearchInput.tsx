@@ -1,5 +1,6 @@
 import { ChangeEvent, FC } from "react";
-import { SearchIcon } from "./icons/SearchIcon";
+import { FiSearch } from "react-icons/fi";
+import IconProvider from "./IconProvider";
 
 interface SearchInputProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -16,7 +17,9 @@ const SearchInput: FC<SearchInputProps> = ({ onChange, value }) => {
         value={value}
       />
       <button className="btn-square btn ml-1">
-        <SearchIcon />
+        <IconProvider size="1.50rem">
+          <FiSearch />
+        </IconProvider>
       </button>
     </div>
   );
