@@ -7,7 +7,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-primary">
+      <main className="min-h-screen bg-primary-content">
         <Sidebar />
         {children}
       </main>
