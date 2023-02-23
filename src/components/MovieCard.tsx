@@ -7,13 +7,19 @@ interface MovieCardProps {
 }
 const MovieCard: FC<MovieCardProps> = ({ image, name }) => {
   return (
-    <Image
-      src={`https://image.tmdb.org/t/p/w500${image}`}
-      alt={name}
-      width={300}
-      height={400}
-      className="rounded-lg"
-    />
+    <div className="carousel-item card glass p-2">
+      {/* TODO replace with nextjs Image tag  */}
+      <figure>
+        <img
+          src={`https://image.tmdb.org/t/p/w500${image}`}
+          alt={name}
+          className="rounded-box"
+        />
+      </figure>
+      <div className="card-body h-16 px-4 py-2">
+        <p className="card-title text-base">{name}</p>
+      </div>
+    </div>
   );
 };
 

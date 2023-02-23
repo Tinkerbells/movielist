@@ -19,7 +19,7 @@ const PopularMovies = () => {
       ) : (
         <div
           ref={ref}
-          className="keen-slider gap-15 mx-8 mt-24 flex w-full place-self-start overflow-hidden"
+          className="keen-slider carousel rounded-box mx-8 mt-24 place-self-start"
         >
           {popularMovies?.results.map((movie, index) => (
             <div className={`keen-slider__slide number-slide${index}`}>
