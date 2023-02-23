@@ -17,7 +17,7 @@ const Sidebar = () => {
       </button>
       {isVisible ? (
         <div className="absolute left-0 top-0 z-40 flex h-full w-60 justify-center bg-base-100">
-          <ul className="menu rounded-box mt-16 w-56 bg-base-100 p-2">
+          <ul className="menu rounded-box mt-16 w-56 gap-2 bg-base-100 p-2">
             <li>
               <a>
                 <IconProvider size="1.5rem">
