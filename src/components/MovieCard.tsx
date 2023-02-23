@@ -1,20 +1,19 @@
-const MovieCard = () => {
+import Image from "next/image";
+import { FC } from "react";
+
+interface MovieCardProps {
+  image: string;
+  name: string;
+}
+const MovieCard: FC<MovieCardProps> = ({ image, name }) => {
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
-      <figure>
-        <img
-          src=""
-          alt="Shoes"
-        />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title">Shoes!</h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
-        <div className="card-actions justify-end">
-          <button className="btn-primary btn">Buy Now</button>
-        </div>
-      </div>
-    </div>
+    <Image
+      src={`https://image.tmdb.org/t/p/w500${image}`}
+      alt={name}
+      width={300}
+      height={400}
+      className="rounded-lg"
+    />
   );
 };
 
