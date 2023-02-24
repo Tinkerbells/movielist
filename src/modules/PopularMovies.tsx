@@ -1,13 +1,17 @@
 import MovieCard from "@/components/MovieCard";
+import { useLayoutStore } from "@/store/layoutStore";
 import { api } from "@/utils/api";
 import { useKeenSlider } from "keen-slider/react";
 import { useEffect, useState } from "react";
 
-const animation = { duration: 1500, easing: (t: number) => t };
+const animation = { duration: 2000, easing: (t: number) => t };
 
 const PopularMovies = () => {
   const { data: popularMovies, isLoading } = api.tmdb.popularMovies.useQuery();
   const [autoPlay, setAutoPlay] = useState<boolean>(true);
+  const isSidebarCollapsed = useLayoutStore(
+    (state) => state.isSidebarCollapsed
+  );
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
     breakpoints: {
       "(min-width: 400px)": {
@@ -23,15 +27,20 @@ const PopularMovies = () => {
         slides: { perView: 6, spacing: 10 },
       },
       "(min-width: 1800px)": {
-        slides: { perView: 7, spacing: 20 },
+        slides: { perView: 8, spacing: 14 },
+      },
+      "(min-width: 2000px)": {
+        slides: { perView: 9, spacing: 18 },
+      },
+      "(min-width: 2200px)": {
+        slides: { perView: 10, spacing: 18 },
       },
     },
     loop: true,
     renderMode: "performance",
     drag: true,
     created: (s) => s.moveToIdx(s.track.details.abs + 1, true, animation),
-    updated: (s) =>
-      autoPlay && s.moveToIdx(s.track.details.abs + 1, true, animation),
+    updated: (s) => s.moveToIdx(s.track.details.abs + 1, true, animation),
     animationEnded: (s) =>
       s.moveToIdx(s.track.details.abs + 1, true, animation),
   });
@@ -42,6 +51,7 @@ const PopularMovies = () => {
   };
 
   useEffect(() => {
+    slider.current?.update();
     if (slider.current && !autoPlay) {
       slider.current.animator.stop();
       slider.current.options.animationEnded = () => {};
@@ -50,17 +60,21 @@ const PopularMovies = () => {
       slider.current.options.animationEnded = (s) =>
         s.moveToIdx(s.track.details.abs + 1, true, animation);
     }
-  }, [autoPlay]);
+  }, [autoPlay, isSidebarCollapsed]);
 
   return (
     <>
       {isLoading ? (
         <div className="loading">Loading...</div>
       ) : (
-        <div className="mt-24 flex w-full flex-col gap-6 px-5">
+        <div
+          className={`mt-24 flex flex-col gap-4 ${
+            isSidebarCollapsed && "ml-60"
+          }`}
+        >
           <div className="flex w-full justify-between">
-            <h2 className="ml-2 text-2xl font-bold">What's Popular</h2>
-            <div className="flex gap-3">
+            <h2 className="ml-4 text-2xl font-bold">What's Popular</h2>
+            <div className="mr-3 flex gap-3">
               <label htmlFor="autoplay">Toggle autoplay</label>
               <input
                 id="autoplay"
@@ -71,7 +85,10 @@ const PopularMovies = () => {
               />
             </div>
           </div>
-          <div ref={sliderRef} className="keen-slider flex justify-self-start ">
+          <div
+            ref={sliderRef}
+            className="keen-slider mx-5 flex overflow-hidden rounded-xl"
+          >
             {popularMovies?.results.map((movie, index) => (
               <div
                 className={`keen-slider__slide number-slide${index} cursor-grab`}

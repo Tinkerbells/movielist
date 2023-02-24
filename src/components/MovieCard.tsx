@@ -7,7 +7,7 @@ interface MovieCardProps {
 }
 const MovieCard: FC<MovieCardProps> = ({ image, name }) => {
   return (
-    <div className="carousel-item card glass p-2">
+    <div className="card glass p-2">
       {/* TODO replace with nextjs Image tag  */}
       <figure>
         <img
@@ -17,7 +17,7 @@ const MovieCard: FC<MovieCardProps> = ({ image, name }) => {
         />
       </figure>
       <div className="card-body h-16 px-4 py-2">
-        <p className="card-title text-base">{name}</p>
+        <p className="card-title text-sm">{name}</p>
       </div>
     </div>
   );
