@@ -13,7 +13,7 @@ const MovieCard: FC<MovieCardProps> = ({ image, name }) => {
         <img
           src={`https://image.tmdb.org/t/p/w500${image}`}
           alt={name}
-          className="rounded-box"
+          className="rounded-box h-full w-full"
         />
       </figure>
       <div className="card-body h-16 px-4 py-2">
