@@ -17,10 +17,7 @@ const MovieCard: FC<MovieCardProps> = ({ image, name }) => {
   };
 
   return (
-    <div
-      className="group card glass relative cursor-pointer p-3"
-      onClick={handleDoubleClick}
-    >
+    <div className="group card glass relative p-3" onClick={handleDoubleClick}>
       {isLiked && (
         <button onClick={() => setIsLiked(false)}>
           <motion.div

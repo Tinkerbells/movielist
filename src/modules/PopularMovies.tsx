@@ -9,9 +9,11 @@ const animation = { duration: 2000, easing: (t: number) => t };
 const PopularMovies = () => {
   const { data: popularMovies, isLoading } = api.tmdb.popularMovies.useQuery();
   const [autoPlay, setAutoPlay] = useState<boolean>(true);
+  const [isDragged, setIsDragged] = useState<boolean>(false);
   const isSidebarCollapsed = useLayoutStore(
     (state) => state.isSidebarCollapsed
   );
+
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
     breakpoints: {
       "(min-width: 400px)": {
@@ -39,6 +41,12 @@ const PopularMovies = () => {
     loop: true,
     renderMode: "performance",
     drag: !autoPlay,
+    dragStarted: () => {
+      setIsDragged(true);
+    },
+    dragEnded: () => {
+      setIsDragged(false);
+    },
     created: (s) =>
       s.moveToIdx(s.track.details.abs + (autoPlay ? 1 : 0), true, animation),
     updated: (s) =>
@@ -63,7 +71,6 @@ const PopularMovies = () => {
         s.moveToIdx(s.track.details.abs + 1, true, animation);
     }
   }, [autoPlay, isSidebarCollapsed]);
-
   return (
     <>
       {isLoading ? (
@@ -93,7 +100,9 @@ const PopularMovies = () => {
           >
             {popularMovies?.results.map((movie, index) => (
               <div
-                className={`keen-slider__slide number-slide${index}`}
+                className={`keen-slider__slide number-slide${index} ${
+                  isDragged ? "cursor-grabbing" : "cursor-pointer"
+                }`}
                 key={movie.id}
               >
                 <MovieCard name={movie.title} image={movie.poster_path} />
