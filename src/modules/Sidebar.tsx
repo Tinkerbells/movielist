@@ -42,7 +42,7 @@ const Sidebar = () => {
                 <IconProvider size="1.5rem">
                   <AiFillHeart />
                 </IconProvider>
-                Likes
+                Favorites
               </a>
             </li>
           </ul>

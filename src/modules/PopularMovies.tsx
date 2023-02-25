@@ -38,11 +38,13 @@ const PopularMovies = () => {
     },
     loop: true,
     renderMode: "performance",
-    drag: true,
-    created: (s) => s.moveToIdx(s.track.details.abs + 1, true, animation),
-    updated: (s) => s.moveToIdx(s.track.details.abs + 1, true, animation),
+    drag: !autoPlay,
+    created: (s) =>
+      s.moveToIdx(s.track.details.abs + (autoPlay ? 1 : 0), true, animation),
+    updated: (s) =>
+      s.moveToIdx(s.track.details.abs + (autoPlay ? 1 : 0), true, animation),
     animationEnded: (s) =>
-      s.moveToIdx(s.track.details.abs + 1, true, animation),
+      s.moveToIdx(s.track.details.abs + (autoPlay ? 1 : 0), true, animation),
   });
 
   const handleChecked = () => {
@@ -74,7 +76,7 @@ const PopularMovies = () => {
         >
           <div className="flex w-full justify-between">
             <h2 className="ml-4 text-2xl font-bold">What's Popular</h2>
-            <div className="mr-3 flex gap-3">
+            <div className="mr-4 flex gap-3">
               <label htmlFor="autoplay">Toggle autoplay</label>
               <input
                 id="autoplay"
@@ -91,7 +93,7 @@ const PopularMovies = () => {
           >
             {popularMovies?.results.map((movie, index) => (
               <div
-                className={`keen-slider__slide number-slide${index} cursor-grab`}
+                className={`keen-slider__slide number-slide${index}`}
                 key={movie.id}
               >
                 <MovieCard name={movie.title} image={movie.poster_path} />

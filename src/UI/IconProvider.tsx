@@ -5,6 +5,7 @@ interface IconProviderProps {
   children: React.ReactNode;
   size?: string;
   className?: string;
+  style?: string;
 }
 const IconProvider: FC<IconProviderProps> = ({ children, size, className }) => {
   return (
