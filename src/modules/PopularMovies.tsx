@@ -21,26 +21,26 @@ const PopularMovies = () => {
   );
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
     breakpoints: {
-      "(min-width: 400px)": {
-        slides: { perView: 3, spacing: 5 },
+      "(min-width: 640px)": {
+        slides: { perView: 1, spacing: 5 },
       },
-      "(min-width: 1000px)": {
+      "(min-width: 768px)": {
+        slides: { perView: 2, spacing: 5 },
+      },
+      "(min-width: 1024px)": {
+        slides: { perView: 3, spacing: 10 },
+      },
+      "(min-width: 1280px)": {
         slides: { perView: 4, spacing: 10 },
       },
-      "(min-width: 1200px)": {
-        slides: { perView: 5, spacing: 10 },
-      },
-      "(min-width: 1600px)": {
-        slides: { perView: 6, spacing: 10 },
+      "(min-width: 1536px)": {
+        slides: { perView: 5, spacing: 15 },
       },
       "(min-width: 1800px)": {
         slides: { perView: 6, spacing: 20 },
       },
-      "(min-width: 2000px)": {
+      "(min-width: 2560px)": {
         slides: { perView: 8, spacing: 25 },
-      },
-      "(min-width: 2200px)": {
-        slides: { perView: 9, spacing: 30 },
       },
     },
     loop: true,

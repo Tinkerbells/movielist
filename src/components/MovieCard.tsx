@@ -88,8 +88,8 @@ const MovieCard: FC<MovieCardProps> = ({
         />
       </figure>
       <div className="card-body flex h-24 flex-col px-4 py-2">
-        <p className="card-title lg:text-base 2xl:text-lg">{title}</p>
-        <p className="lg:text-base 2xl:text-base">
+        <p className="xl:text-base card-title 3xl:text-lg">{title}</p>
+        <p className="xl:text-base 3xl:text-base">
           {formatReleaseDate(releaseDate)}
         </p>
       </div>
