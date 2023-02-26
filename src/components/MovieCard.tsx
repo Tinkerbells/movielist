@@ -1,7 +1,7 @@
 import IconProvider from "@/UI/IconProvider";
 // import Image from "next/image";
 import { FC, useState } from "react";
-import { AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiFillStar } from "react-icons/ai";
 import { motion, useMotionValue } from "framer-motion";
 import { api } from "@/utils/api";
 import { formatReleaseDate } from "@/utils/format";
@@ -12,6 +12,7 @@ interface MovieCardProps {
   movieId: number;
   isFavorite?: boolean;
   releaseDate: string;
+  rating: number;
 }
 
 const MovieCard: FC<MovieCardProps> = ({
@@ -20,6 +21,7 @@ const MovieCard: FC<MovieCardProps> = ({
   movieId,
   isFavorite,
   releaseDate,
+  rating,
 }) => {
   const [isLiked, setIsLiked] = useState<boolean>(isFavorite || false);
   const x = useMotionValue(0);
@@ -43,7 +45,7 @@ const MovieCard: FC<MovieCardProps> = ({
   };
 
   return (
-    <div className="card glass relative pb-3">
+    <div className="card glass relative overflow-hidden pb-3">
       {/* TODO replace with nextjs Image tag  */}
       {isLiked ? (
         <button
@@ -57,7 +59,7 @@ const MovieCard: FC<MovieCardProps> = ({
           >
             <IconProvider
               className="fill-red-600 transition duration-200 ease-in-out hover:fill-white"
-              size="4.5rem"
+              size="3.75rem"
             >
               <AiFillHeart />
             </IconProvider>
@@ -85,9 +87,17 @@ const MovieCard: FC<MovieCardProps> = ({
           }`}
         />
       </figure>
-      <div className="card-body flex h-20 flex-col px-4 py-2">
-        <p className="card-title text-sm">{title}</p>
-        <p className="text-sm">{formatReleaseDate(releaseDate)}</p>
+      <div className="card-body flex h-24 flex-col px-4 py-2">
+        <p className="card-title lg:text-base 2xl:text-lg">{title}</p>
+        <p className="lg:text-base 2xl:text-base">
+          {formatReleaseDate(releaseDate)}
+        </p>
+      </div>
+      <div className="absolute bottom-0 right-0 my-3 mx-0 flex items-center gap-1 px-3 text-base font-bold">
+        <IconProvider className="fill-yellow-400" size="1.25rem">
+          <AiFillStar />
+        </IconProvider>
+        {rating}
       </div>
     </div>
   );

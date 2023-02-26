@@ -22,25 +22,25 @@ const PopularMovies = () => {
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
     breakpoints: {
       "(min-width: 400px)": {
-        slides: { perView: 2, spacing: 5 },
+        slides: { perView: 3, spacing: 5 },
       },
       "(min-width: 1000px)": {
-        slides: { perView: 3, spacing: 10 },
-      },
-      "(min-width: 1200px)": {
         slides: { perView: 4, spacing: 10 },
       },
-      "(min-width: 1600px)": {
+      "(min-width: 1200px)": {
         slides: { perView: 5, spacing: 10 },
       },
+      "(min-width: 1600px)": {
+        slides: { perView: 6, spacing: 10 },
+      },
       "(min-width: 1800px)": {
-        slides: { perView: 6, spacing: 14 },
+        slides: { perView: 6, spacing: 20 },
       },
       "(min-width: 2000px)": {
-        slides: { perView: 7, spacing: 18 },
+        slides: { perView: 8, spacing: 25 },
       },
       "(min-width: 2200px)": {
-        slides: { perView: 8, spacing: 18 },
+        slides: { perView: 9, spacing: 30 },
       },
     },
     loop: true,
@@ -83,7 +83,7 @@ const PopularMovies = () => {
     >
       <div className="flex w-full justify-between">
         <h2 className="ml-4 text-2xl font-bold">What's Popular</h2>
-        <div className="mr-4 flex gap-3">
+        <div className="mr-5 flex gap-3">
           <label htmlFor="autoplay">Toggle autoplay</label>
           <input
             id="autoplay"
@@ -120,6 +120,7 @@ const PopularMovies = () => {
                   !!favoriteMovies?.find((e) => e.movieId == movie.id)
                 }
                 releaseDate={movie.release_date}
+                rating={movie.vote_average}
               />
             </div>
           ))}
