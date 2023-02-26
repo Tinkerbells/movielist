@@ -1,5 +1,6 @@
 import MovieCard from "@/components/MovieCard";
 import { useLayoutStore } from "@/store/layoutStore";
+import Loader from "@/UI/Loader";
 import { api } from "@/utils/api";
 import { useKeenSlider } from "keen-slider/react";
 import { useEffect, useState } from "react";
@@ -7,13 +8,17 @@ import { useEffect, useState } from "react";
 const animation = { duration: 2000, easing: (t: number) => t };
 
 const PopularMovies = () => {
-  const { data: popularMovies, isLoading } = api.tmdb.popularMovies.useQuery();
+  const { data: popularMovies, isLoading: isPopularMoviesLoading } =
+    api.tmdb.popularMovies.useQuery();
+
+  const { data: favoriteMovies, isLoading: isFavoriteMoviesLoading } =
+    api.movie.getFavorites.useQuery();
   const [autoPlay, setAutoPlay] = useState<boolean>(true);
+
   const [isDragged, setIsDragged] = useState<boolean>(false);
   const isSidebarCollapsed = useLayoutStore(
     (state) => state.isSidebarCollapsed
   );
-
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
     breakpoints: {
       "(min-width: 400px)": {
@@ -71,10 +76,11 @@ const PopularMovies = () => {
         s.moveToIdx(s.track.details.abs + 1, true, animation);
     }
   }, [autoPlay, isSidebarCollapsed]);
+
   return (
     <>
-      {isLoading ? (
-        <div className="loading">Loading...</div>
+      {isPopularMoviesLoading && isFavoriteMoviesLoading ? (
+        <Loader bgColor="gray" fgColor="primary" className="h-9 w-full" />
       ) : (
         <div
           className={`mt-24 flex flex-col gap-4 ${
@@ -105,7 +111,14 @@ const PopularMovies = () => {
                 }`}
                 key={movie.id}
               >
-                <MovieCard name={movie.title} image={movie.poster_path} />
+                <MovieCard
+                  posterPath={movie.poster_path}
+                  title={movie.title}
+                  movieId={movie.id}
+                  isFavorite={
+                    !!favoriteMovies?.find((e) => e.movieId == movie.id)
+                  }
+                />
               </div>
             ))}
           </div>
