@@ -25,22 +25,22 @@ const PopularMovies = () => {
         slides: { perView: 2, spacing: 5 },
       },
       "(min-width: 1000px)": {
-        slides: { perView: 4, spacing: 10 },
+        slides: { perView: 3, spacing: 10 },
       },
       "(min-width: 1200px)": {
-        slides: { perView: 5, spacing: 10 },
+        slides: { perView: 4, spacing: 10 },
       },
       "(min-width: 1600px)": {
-        slides: { perView: 6, spacing: 10 },
+        slides: { perView: 5, spacing: 10 },
       },
       "(min-width: 1800px)": {
-        slides: { perView: 8, spacing: 14 },
+        slides: { perView: 6, spacing: 14 },
       },
       "(min-width: 2000px)": {
-        slides: { perView: 9, spacing: 18 },
+        slides: { perView: 7, spacing: 18 },
       },
       "(min-width: 2200px)": {
-        slides: { perView: 10, spacing: 18 },
+        slides: { perView: 8, spacing: 18 },
       },
     },
     loop: true,
@@ -66,7 +66,7 @@ const PopularMovies = () => {
   };
 
   useEffect(() => {
-    slider.current?.update();
+    slider?.current?.update();
     if (slider.current && !autoPlay) {
       slider.current.animator.stop();
       slider.current.options.animationEnded = () => {};
@@ -78,53 +78,54 @@ const PopularMovies = () => {
   }, [autoPlay, isSidebarCollapsed]);
 
   return (
-    <>
-      {isPopularMoviesLoading && isFavoriteMoviesLoading ? (
-        <Loader bgColor="gray" fgColor="primary" className="h-9 w-full" />
+    <div
+      className={`mt-24 flex flex-col gap-4 ${isSidebarCollapsed && "ml-60"}`}
+    >
+      <div className="flex w-full justify-between">
+        <h2 className="ml-4 text-2xl font-bold">What's Popular</h2>
+        <div className="mr-4 flex gap-3">
+          <label htmlFor="autoplay">Toggle autoplay</label>
+          <input
+            id="autoplay"
+            type="checkbox"
+            className="toggle"
+            checked={autoPlay}
+            onChange={handleChecked}
+          />
+        </div>
+      </div>
+      {isFavoriteMoviesLoading && isPopularMoviesLoading ? (
+        <Loader
+          bgColor="gray"
+          fgColor="primary"
+          className="mt-24 h-9 w-full place-self-center"
+        />
       ) : (
         <div
-          className={`mt-24 flex flex-col gap-4 ${
-            isSidebarCollapsed && "ml-60"
-          }`}
+          ref={sliderRef}
+          className="keen-slider mx-5 flex overflow-hidden rounded-xl"
         >
-          <div className="flex w-full justify-between">
-            <h2 className="ml-4 text-2xl font-bold">What's Popular</h2>
-            <div className="mr-4 flex gap-3">
-              <label htmlFor="autoplay">Toggle autoplay</label>
-              <input
-                id="autoplay"
-                type="checkbox"
-                className="toggle"
-                checked={autoPlay}
-                onChange={handleChecked}
+          {popularMovies?.results.map((movie, index) => (
+            <div
+              className={`keen-slider__slide number-slide${index} ${
+                isDragged ? "cursor-grabbing" : "cursor-pointer"
+              }`}
+              key={movie.id}
+            >
+              <MovieCard
+                posterPath={movie.poster_path}
+                title={movie.title}
+                movieId={movie.id}
+                isFavorite={
+                  !!favoriteMovies?.find((e) => e.movieId == movie.id)
+                }
+                releaseDate={movie.release_date}
               />
             </div>
-          </div>
-          <div
-            ref={sliderRef}
-            className="keen-slider mx-5 flex overflow-hidden rounded-xl"
-          >
-            {popularMovies?.results.map((movie, index) => (
-              <div
-                className={`keen-slider__slide number-slide${index} ${
-                  isDragged ? "cursor-grabbing" : "cursor-pointer"
-                }`}
-                key={movie.id}
-              >
-                <MovieCard
-                  posterPath={movie.poster_path}
-                  title={movie.title}
-                  movieId={movie.id}
-                  isFavorite={
-                    !!favoriteMovies?.find((e) => e.movieId == movie.id)
-                  }
-                />
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

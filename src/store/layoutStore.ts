@@ -6,7 +6,7 @@ interface ILayoutStore {
 }
 
 export const useLayoutStore = create<ILayoutStore>((set) => ({
-  isSidebarCollapsed: false,
+  isSidebarCollapsed: true,
   setIsSidebarCollapsed: (newValue: boolean) =>
     set({ isSidebarCollapsed: newValue }),
 }));
