@@ -1,5 +1,5 @@
+import { PopularMoviesSlider } from "@/modules/popular-movies-slider";
 import { type NextPage } from "next";
-import { PopularMoviesSlider } from "@/modules/popular-movies";
 
 const Home: NextPage = () => {
   return (

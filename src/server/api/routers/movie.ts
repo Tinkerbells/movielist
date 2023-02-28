@@ -13,6 +13,8 @@ export const movieRouter = createTRPCRouter({
         movieId: z.number(),
         title: z.string(),
         posterPath: z.string(),
+        releaseDate: z.string(),
+        overview: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -21,6 +23,8 @@ export const movieRouter = createTRPCRouter({
           movieId: input.movieId,
           title: input.title,
           posterPath: input.posterPath,
+          releaseDate: input.releaseDate,
+          overview: input.overview,
         },
       });
     }),

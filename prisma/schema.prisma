@@ -67,10 +67,12 @@ model VerificationToken {
 }
 
 model Favorite {
-  id         String  @id @default(cuid())
-  movieId    Int
-  title      String
-  posterPath String
-  User       User?   @relation(fields: [userId], references: [id])
-  userId     String?
+  id          String  @id @default(cuid())
+  movieId     Int
+  title       String
+  posterPath  String
+  releaseDate String
+  overview    String
+  User        User?   @relation(fields: [userId], references: [id])
+  userId      String?
 }

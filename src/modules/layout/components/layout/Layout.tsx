@@ -8,7 +8,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-primary-content">
+      <main className="">
         <Sidebar />
         {children}
         <LoginModal />

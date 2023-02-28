@@ -13,69 +13,83 @@ export const PopularMoviesSlider = () => {
 
   const { data: favoriteMovies, isLoading: isFavoriteMoviesLoading } =
     api.movie.getFavorites.useQuery();
-  const [autoPlay, setAutoPlay] = useState<boolean>(true);
 
   const [isDragged, setIsDragged] = useState<boolean>(false);
+
   const isSidebarCollapsed = useLayoutStore(
     (state) => state.isSidebarCollapsed
   );
-  const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
-    breakpoints: {
-      "(min-width: 640px)": {
-        slides: { perView: 1, spacing: 5 },
-      },
-      "(min-width: 768px)": {
-        slides: { perView: 2, spacing: 5 },
-      },
-      "(min-width: 1024px)": {
-        slides: { perView: 3, spacing: 10 },
-      },
-      "(min-width: 1280px)": {
-        slides: { perView: 4, spacing: 10 },
-      },
-      "(min-width: 1536px)": {
-        slides: { perView: 5, spacing: 15 },
-      },
-      "(min-width: 1800px)": {
-        slides: { perView: 6, spacing: 20 },
-      },
-      "(min-width: 2560px)": {
-        slides: { perView: 8, spacing: 25 },
-      },
-    },
-    loop: true,
-    renderMode: "performance",
-    drag: !autoPlay,
-    dragStarted: () => {
-      setIsDragged(true);
-    },
-    dragEnded: () => {
-      setIsDragged(false);
-    },
-    created: (s) =>
-      s.moveToIdx(s.track.details.abs + (autoPlay ? 1 : 0), true, animation),
-    updated: (s) =>
-      s.moveToIdx(s.track.details.abs + (autoPlay ? 1 : 0), true, animation),
-    animationEnded: (s) =>
-      s.moveToIdx(s.track.details.abs + (autoPlay ? 1 : 0), true, animation),
-  });
 
-  const handleChecked = () => {
-    slider.current?.update();
-    setAutoPlay(!autoPlay);
-  };
+  const [sliderRef, slider] = useKeenSlider<HTMLDivElement>(
+    {
+      breakpoints: {
+        "(min-width: 640px)": {
+          slides: { perView: 1, spacing: 5 },
+        },
+        "(min-width: 768px)": {
+          slides: { perView: 2, spacing: 5 },
+        },
+        "(min-width: 1024px)": {
+          slides: { perView: 3, spacing: 10 },
+        },
+        "(min-width: 1280px)": {
+          slides: { perView: 4, spacing: 10 },
+        },
+        "(min-width: 1536px)": {
+          slides: { perView: 5, spacing: 10 },
+        },
+        "(min-width: 1800px)": {
+          slides: { perView: 6, spacing: 10 },
+        },
+        "(min-width: 2560px)": {
+          slides: { perView: 8, spacing: 10 },
+        },
+      },
+      loop: true,
+      renderMode: "performance",
+      drag: true,
+      dragStarted: () => {
+        setIsDragged(true);
+      },
+      dragEnded: () => {
+        setIsDragged(false);
+      },
+    },
+    [
+      (slider) => {
+        let timeout: ReturnType<typeof setTimeout>;
+        let mouseOver = false;
+        function clearNextTimeout() {
+          clearTimeout(timeout);
+        }
+        function nextTimeout() {
+          clearTimeout(timeout);
+          if (mouseOver) return;
+          timeout = setTimeout(() => {
+            slider.next();
+          }, 750);
+        }
+        slider.on("created", () => {
+          slider.container.addEventListener("mouseover", () => {
+            mouseOver = true;
+            clearNextTimeout();
+          });
+          slider.container.addEventListener("mouseout", () => {
+            mouseOver = false;
+            nextTimeout();
+          });
+          nextTimeout();
+        });
+        slider.on("dragStarted", clearNextTimeout);
+        slider.on("animationEnded", nextTimeout);
+        slider.on("updated", nextTimeout);
+      },
+    ]
+  );
 
   useEffect(() => {
     slider?.current?.update();
-    if (slider.current && !autoPlay) {
-      slider.current.animator.stop();
-      slider.current.options.animationEnded = () => {};
-    }
-    if (slider.current && autoPlay) {
-      slider.current.options.animationEnded = (s) =>
-        s.moveToIdx(s.track.details.abs + 1, true, animation);
-    }
-  }, [autoPlay, isSidebarCollapsed]);
+  }, [isSidebarCollapsed, popularMovies]);
 
   return (
     <div
@@ -83,16 +97,6 @@ export const PopularMoviesSlider = () => {
     >
       <div className="flex w-full justify-between">
         <h2 className="ml-4 text-2xl font-bold">What's Popular</h2>
-        <div className="mr-5 flex gap-3">
-          <label htmlFor="autoplay">Toggle autoplay</label>
-          <input
-            id="autoplay"
-            type="checkbox"
-            className="toggle"
-            checked={autoPlay}
-            onChange={handleChecked}
-          />
-        </div>
       </div>
       {isFavoriteMoviesLoading && isPopularMoviesLoading ? (
         <Spinner
@@ -103,13 +107,13 @@ export const PopularMoviesSlider = () => {
       ) : (
         <div
           ref={sliderRef}
-          className="keen-slider mx-5 flex overflow-hidden rounded-xl"
+          className="keen-slider rounded-box mx-4 flex overflow-hidden"
         >
           {popularMovies?.results.map((movie, index) => (
             <div
               className={`keen-slider__slide number-slide${index} ${
                 isDragged ? "cursor-grabbing" : "cursor-pointer"
-              }`}
+              } px-1`}
               key={movie.id}
             >
               <PopularMovieCard
@@ -119,6 +123,7 @@ export const PopularMoviesSlider = () => {
                 isFavorite={
                   !!favoriteMovies?.find((e) => e.movieId == movie.id)
                 }
+                overview={movie.overview}
                 releaseDate={movie.release_date}
                 rating={movie.vote_average}
               />

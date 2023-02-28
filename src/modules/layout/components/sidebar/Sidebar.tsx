@@ -14,7 +14,7 @@ const Sidebar = () => {
   return (
     <>
       <button
-        className="btn-ghost btn-circle btn absolute left-0 top-0 z-50 m-2.5"
+        className="btn-ghost btn-circle btn fixed left-0 top-0 z-50 m-2.5"
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
         <IconProvider size="1.5rem">
@@ -22,7 +22,7 @@ const Sidebar = () => {
         </IconProvider>
       </button>
       {isCollapsed ? (
-        <div className="absolute left-0 top-0 z-40 flex h-full w-60 justify-center bg-base-100">
+        <div className="fixed left-0 top-0 z-40 flex h-full w-60 justify-center bg-base-100">
           <ul className="menu rounded-box mt-16 w-56 gap-2 bg-base-100 p-2">
             <li>
               <Link href="/">

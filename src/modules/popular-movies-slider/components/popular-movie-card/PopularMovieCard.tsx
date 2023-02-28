@@ -14,6 +14,7 @@ interface PopularMovieCardProps {
   isFavorite?: boolean;
   releaseDate: string;
   rating: number;
+  overview: string;
 }
 
 const PopularMovieCard: FC<PopularMovieCardProps> = ({
@@ -23,6 +24,7 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
   isFavorite,
   releaseDate,
   rating,
+  overview,
 }) => {
   const { data: sessionData } = useSession();
   const [isLiked, setIsLiked] = useState<boolean>(isFavorite || false);
@@ -35,6 +37,8 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
       posterPath: posterPath,
       title: title,
       movieId: movieId,
+      releaseDate: releaseDate,
+      overview: overview,
     });
   };
 

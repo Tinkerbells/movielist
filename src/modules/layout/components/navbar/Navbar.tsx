@@ -5,7 +5,7 @@ import React, { ChangeEvent, useState } from "react";
 const Navbar = () => {
   const { data: sessionData } = useSession();
   return (
-    <div className="navbar absolute top-0 left-0 z-40 bg-base-100">
+    <div className="navbar fixed top-0 left-0 z-40 bg-base-100">
       <div className="navbar-start"></div>
       <div className="navbar-center">
         <NavbarSearch />
