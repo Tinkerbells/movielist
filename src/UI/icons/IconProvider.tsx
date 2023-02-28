@@ -7,12 +7,14 @@ interface IconProviderProps {
   className?: string;
   style?: string;
 }
-const IconProvider: FC<IconProviderProps> = ({ children, size, className }) => {
+export const IconProvider: FC<IconProviderProps> = ({
+  children,
+  size,
+  className,
+}) => {
   return (
     <IconContext.Provider value={{ size: size, className: className }}>
       <div>{children}</div>
     </IconContext.Provider>
   );
 };
-
-export default IconProvider;

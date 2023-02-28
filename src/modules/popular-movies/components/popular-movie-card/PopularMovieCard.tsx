@@ -1,12 +1,12 @@
-import IconProvider from "@/UI/IconProvider";
 // import Image from "next/image";
 import { FC, useState } from "react";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
-import { motion, useMotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 import { api } from "@/utils/api";
-import { formatReleaseDate } from "@/utils/format";
+import { formatReleaseDate } from "@/helpers/formatReleaseDate";
+import { IconProvider } from "@/UI";
 
-interface MovieCardProps {
+interface PopularMovieCardProps {
   posterPath: string;
   title: string;
   movieId: number;
@@ -15,7 +15,7 @@ interface MovieCardProps {
   rating: number;
 }
 
-const MovieCard: FC<MovieCardProps> = ({
+const PopularMovieCard: FC<PopularMovieCardProps> = ({
   posterPath,
   title,
   movieId,
@@ -24,7 +24,6 @@ const MovieCard: FC<MovieCardProps> = ({
   rating,
 }) => {
   const [isLiked, setIsLiked] = useState<boolean>(isFavorite || false);
-  const x = useMotionValue(0);
   const addFavorite = api.movie.addFavorite.useMutation();
   const deleteFavorite = api.movie.deleteFavorite.useMutation();
 
@@ -45,7 +44,10 @@ const MovieCard: FC<MovieCardProps> = ({
   };
 
   return (
-    <div className="card glass relative overflow-hidden pb-3">
+    <div
+      className="card glass relative overflow-hidden pb-3"
+      onClick={() => console.log("clicked")}
+    >
       {/* TODO replace with nextjs Image tag  */}
       {isLiked ? (
         <button
@@ -88,10 +90,8 @@ const MovieCard: FC<MovieCardProps> = ({
         />
       </figure>
       <div className="card-body flex h-24 flex-col px-4 py-2">
-        <p className="xl:text-base card-title 3xl:text-lg">{title}</p>
-        <p className="xl:text-base 3xl:text-base">
-          {formatReleaseDate(releaseDate)}
-        </p>
+        <p className="card-title text-base">{title}</p>
+        <p className="text-sm">{formatReleaseDate(releaseDate)}</p>
       </div>
       <div className="absolute bottom-0 right-0 my-3 mx-0 flex items-center gap-1 px-3 text-base font-bold">
         <IconProvider className="fill-yellow-400" size="1.25rem">
@@ -103,4 +103,4 @@ const MovieCard: FC<MovieCardProps> = ({
   );
 };
 
-export default MovieCard;
+export default PopularMovieCard;

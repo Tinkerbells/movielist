@@ -1,7 +1,7 @@
 import { AiFillHeart, AiFillHome } from "react-icons/ai";
 import { MdSubscriptions, MdMenu } from "react-icons/md";
-import IconProvider from "@/UI/IconProvider";
 import { useLayoutStore } from "@/store/layoutStore";
+import { IconProvider } from "@/UI";
 
 const Sidebar = () => {
   const { isCollapsed, setIsCollapsed } = useLayoutStore((state) => ({

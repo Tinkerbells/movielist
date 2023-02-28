@@ -1,6 +1,6 @@
 import { ChangeEvent, FC } from "react";
 import { FiSearch } from "react-icons/fi";
-import IconProvider from "./IconProvider";
+import { IconProvider } from "./icons/IconProvider";
 
 interface SearchInputProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;

@@ -1,11 +1,11 @@
 import { FC, HTMLAttributes } from "react";
 
-interface LoaderProps extends HTMLAttributes<HTMLDivElement> {
+interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
   bgColor: string;
   fgColor: string;
 }
 
-const Loader: FC<LoaderProps> = ({ bgColor, fgColor, ...rest }) => {
+export const Spinner: FC<SpinnerProps> = ({ bgColor, fgColor, ...rest }) => {
   return (
     <div role="status" {...rest}>
       <svg
@@ -27,4 +27,3 @@ const Loader: FC<LoaderProps> = ({ bgColor, fgColor, ...rest }) => {
     </div>
   );
 };
-export default Loader;

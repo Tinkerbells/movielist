@@ -1,13 +1,13 @@
-import MovieCard from "@/components/MovieCard";
 import { useLayoutStore } from "@/store/layoutStore";
-import Loader from "@/UI/Loader";
+import { Spinner } from "@/UI";
 import { api } from "@/utils/api";
 import { useKeenSlider } from "keen-slider/react";
 import { useEffect, useState } from "react";
+import PopularMovieCard from "../popular-movie-card/PopularMovieCard";
 
 const animation = { duration: 2000, easing: (t: number) => t };
 
-const PopularMovies = () => {
+export const PopularMoviesSlider = () => {
   const { data: popularMovies, isLoading: isPopularMoviesLoading } =
     api.tmdb.popularMovies.useQuery();
 
@@ -95,10 +95,10 @@ const PopularMovies = () => {
         </div>
       </div>
       {isFavoriteMoviesLoading && isPopularMoviesLoading ? (
-        <Loader
-          bgColor="gray"
+        <Spinner
+          bgColor="base-100"
           fgColor="primary"
-          className="mt-24 h-9 w-full place-self-center"
+          className="mt-24 h-9 place-self-center"
         />
       ) : (
         <div
@@ -112,7 +112,7 @@ const PopularMovies = () => {
               }`}
               key={movie.id}
             >
-              <MovieCard
+              <PopularMovieCard
                 posterPath={movie.poster_path}
                 title={movie.title}
                 movieId={movie.id}
@@ -129,5 +129,3 @@ const PopularMovies = () => {
     </div>
   );
 };
-
-export default PopularMovies;
