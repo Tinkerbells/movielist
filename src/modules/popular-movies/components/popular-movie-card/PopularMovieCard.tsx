@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { api } from "@/utils/api";
 import { formatReleaseDate } from "@/helpers/formatReleaseDate";
 import { IconProvider } from "@/UI";
+import { useSession } from "next-auth/react";
 
 interface PopularMovieCardProps {
   posterPath: string;
@@ -23,6 +24,7 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
   releaseDate,
   rating,
 }) => {
+  const { data: sessionData } = useSession();
   const [isLiked, setIsLiked] = useState<boolean>(isFavorite || false);
   const addFavorite = api.movie.addFavorite.useMutation();
   const deleteFavorite = api.movie.deleteFavorite.useMutation();
@@ -49,36 +51,40 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
       onClick={() => console.log("clicked")}
     >
       {/* TODO replace with nextjs Image tag  */}
-      {isLiked ? (
-        <button
-          onClick={handleRemoveFavorite}
-          className="absolute flex h-full w-full justify-center"
-        >
-          <motion.div
-            initial={{ scale: 0, x: "100%", y: "-100%" }}
-            animate={{ scale: 1, x: 0, y: "100%" }}
-            className="mt-[40%]"
-          >
-            <IconProvider
-              className="fill-red-600 transition duration-200 ease-in-out hover:fill-white"
-              size="3.75rem"
+      {sessionData && (
+        <>
+          {isLiked ? (
+            <button
+              onClick={handleRemoveFavorite}
+              className="absolute flex h-full w-full justify-center"
             >
-              <AiFillHeart />
-            </IconProvider>
-          </motion.div>
-        </button>
-      ) : (
-        <button
-          className="group btn-circle btn absolute right-0 m-4 border-none bg-base-100 bg-opacity-50"
-          onClick={handleAddFavorite}
-        >
-          <IconProvider
-            className="fill-red-white transition duration-200 ease-in-out group-hover:fill-red-600"
-            size="1.75rem"
-          >
-            <AiFillHeart />
-          </IconProvider>
-        </button>
+              <motion.div
+                initial={{ scale: 0, x: "100%", y: "-100%" }}
+                animate={{ scale: 1, x: 0, y: "100%" }}
+                className="mt-[40%]"
+              >
+                <IconProvider
+                  className="fill-red-600 transition duration-200 ease-in-out hover:fill-white"
+                  size="3.75rem"
+                >
+                  <AiFillHeart />
+                </IconProvider>
+              </motion.div>
+            </button>
+          ) : (
+            <button
+              className="group btn-circle btn absolute right-0 m-4 border-none bg-base-100 bg-opacity-50"
+              onClick={handleAddFavorite}
+            >
+              <IconProvider
+                className="fill-red-white transition duration-200 ease-in-out group-hover:fill-red-600"
+                size="1.75rem"
+              >
+                <AiFillHeart />
+              </IconProvider>
+            </button>
+          )}
+        </>
       )}
       <figure className="p-2.5">
         <img

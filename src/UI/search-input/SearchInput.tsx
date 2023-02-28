@@ -1,12 +1,12 @@
 import { ChangeEvent, FC } from "react";
 import { FiSearch } from "react-icons/fi";
-import { IconProvider } from "./icons/IconProvider";
+import { IconProvider } from "../icons/IconProvider";
 
 interface SearchInputProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   value: string;
 }
-const SearchInput: FC<SearchInputProps> = ({ onChange, value }) => {
+export const SearchInput: FC<SearchInputProps> = ({ onChange, value }) => {
   return (
     <div className="flex min-w-[500px]">
       <input
@@ -24,5 +24,3 @@ const SearchInput: FC<SearchInputProps> = ({ onChange, value }) => {
     </div>
   );
 };
-
-export default SearchInput;
