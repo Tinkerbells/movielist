@@ -3,7 +3,7 @@ import { type NextPage } from "next";
 
 const Home: NextPage = () => {
   return (
-    <div className="absolute top-0 left-0 z-0 flex h-full w-full flex-col">
+    <div className="flex h-full w-full flex-col">
       <PopularMoviesSlider />
       {/* {!sessionData ? <SignInButton /> : null} */}
     </div>

@@ -5,8 +5,6 @@ import { useKeenSlider } from "keen-slider/react";
 import { useEffect, useState } from "react";
 import PopularMovieCard from "../popular-movie-card/PopularMovieCard";
 
-const animation = { duration: 2000, easing: (t: number) => t };
-
 export const PopularMoviesSlider = () => {
   const { data: popularMovies, isLoading: isPopularMoviesLoading } =
     api.tmdb.popularMovies.useQuery();
@@ -92,18 +90,12 @@ export const PopularMoviesSlider = () => {
   }, [isSidebarCollapsed, popularMovies]);
 
   return (
-    <div
-      className={`mt-24 flex flex-col gap-4 ${isSidebarCollapsed && "ml-60"}`}
-    >
+    <div className="mt-24 flex flex-col gap-4">
       <div className="flex w-full justify-between">
         <h2 className="ml-4 text-2xl font-bold">What's Popular</h2>
       </div>
       {isFavoriteMoviesLoading && isPopularMoviesLoading ? (
-        <Spinner
-          bgColor="base-100"
-          fgColor="primary"
-          className="mt-24 h-9 place-self-center"
-        />
+        <Spinner className="place-self-center" />
       ) : (
         <div
           ref={sliderRef}

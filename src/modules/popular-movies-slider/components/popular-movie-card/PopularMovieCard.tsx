@@ -31,24 +31,22 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
   const addFavorite = api.movie.addFavorite.useMutation();
   const deleteFavorite = api.movie.deleteFavorite.useMutation();
 
-  const handleAddFavorite = () => {
-    setIsLiked(true);
-    void addFavorite.mutate({
-      posterPath: posterPath,
-      title: title,
-      movieId: movieId,
-      releaseDate: releaseDate,
-      overview: overview,
-    });
+  const handleClick = () => {
+    if (isLiked) {
+      void deleteFavorite.mutate({
+        movieId: movieId,
+      });
+    } else {
+      void addFavorite.mutate({
+        posterPath: posterPath,
+        title: title,
+        movieId: movieId,
+        releaseDate: releaseDate,
+        overview: overview,
+      });
+    }
+    setIsLiked(!isLiked);
   };
-
-  const handleRemoveFavorite = () => {
-    setIsLiked(false);
-    void deleteFavorite.mutate({
-      movieId: movieId,
-    });
-  };
-
   return (
     <div
       className="card glass relative overflow-hidden pb-3"
@@ -59,7 +57,7 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
         <>
           {isLiked ? (
             <button
-              onClick={handleRemoveFavorite}
+              onClick={handleClick}
               className="absolute flex h-full w-full justify-center"
             >
               <motion.div
@@ -77,8 +75,8 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
             </button>
           ) : (
             <button
-              className="group btn-circle btn absolute right-0 m-4 border-none bg-base-100 bg-opacity-50"
-              onClick={handleAddFavorite}
+              className="group btn-circle btn absolute right-0 m-4 border-none bg-opacity-50"
+              onClick={handleClick}
             >
               <IconProvider
                 className="fill-red-white transition duration-200 ease-in-out group-hover:fill-red-600"

@@ -5,12 +5,14 @@ import { IconProvider } from "@/UI";
 import { FC } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Sidebar = () => {
   const { isCollapsed, setIsCollapsed } = useLayoutStore((state) => ({
     isCollapsed: state.isSidebarCollapsed,
     setIsCollapsed: state.setIsSidebarCollapsed,
   }));
+  const router = useRouter();
   return (
     <>
       <button
@@ -22,10 +24,13 @@ const Sidebar = () => {
         </IconProvider>
       </button>
       {isCollapsed ? (
-        <div className="fixed left-0 top-0 z-40 flex h-full w-60 justify-center bg-base-100">
-          <ul className="menu rounded-box mt-16 w-56 gap-2 bg-base-100 p-2">
+        <div className="fixed left-0 top-0 z-40 flex h-full w-60 justify-center bg-primary-content">
+          <ul className="menu rounded-box mt-16 w-56 gap-2 bg-primary-content p-2">
             <li>
-              <Link href="/">
+              <Link
+                href="/"
+                className={`${router.pathname == "/" && "active"}`}
+              >
                 <IconProvider size="1.5rem">
                   <AiFillHome />
                 </IconProvider>
@@ -33,12 +38,20 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <NavButton href="/subscriptions" title="Subscriptions">
+              <NavButton
+                href="/subscriptions"
+                title="Subscriptions"
+                isActive={router.pathname === "/subscriptions"}
+              >
                 <MdSubscriptions />
               </NavButton>
             </li>
             <li>
-              <NavButton href="/favorites " title="Favorites">
+              <NavButton
+                href="/favorites "
+                title="Favorites"
+                isActive={router.pathname === "/favorites"}
+              >
                 <AiFillHeart />
               </NavButton>
             </li>
@@ -53,12 +66,13 @@ const NavButton: FC<{
   children: React.ReactNode;
   title: string;
   href: string;
-}> = ({ children, href, title }) => {
+  isActive: boolean;
+}> = ({ children, href, title, isActive }) => {
   const { data: sessionData } = useSession();
   return (
     <>
       {sessionData ? (
-        <Link href={href}>
+        <Link href={href} className={`${isActive && "active"}`}>
           <IconProvider size="1.5rem">{children}</IconProvider>
           {title}
         </Link>

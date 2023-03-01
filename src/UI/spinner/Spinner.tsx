@@ -1,16 +1,13 @@
 import { FC, HTMLAttributes } from "react";
-
 interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
-  bgColor: string;
-  fgColor: string;
+  className?: string;
 }
-
-export const Spinner: FC<SpinnerProps> = ({ bgColor, fgColor, ...rest }) => {
+export const Spinner: FC<SpinnerProps> = ({ className }) => {
   return (
-    <div role="status" {...rest}>
+    <div role="status" className={className}>
       <svg
         aria-hidden="true"
-        className={`h-full w-full animate-spin text-${bgColor} fill-${fgColor}`}
+        className="h-10 w-10 animate-spin fill-primary text-primary-content"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

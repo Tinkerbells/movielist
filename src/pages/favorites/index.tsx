@@ -3,7 +3,7 @@ import { NextPage } from "next";
 
 const Favorite: NextPage = () => {
   return (
-    <div className="absolute top-0 left-0 z-0 flex h-full w-full flex-col pl-60">
+    <div className="flex flex-col">
       <FavoriteMoviesList />
     </div>
   );

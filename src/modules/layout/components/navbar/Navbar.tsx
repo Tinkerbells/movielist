@@ -5,7 +5,7 @@ import React, { ChangeEvent, useState } from "react";
 const Navbar = () => {
   const { data: sessionData } = useSession();
   return (
-    <div className="navbar fixed top-0 left-0 z-40 bg-base-100">
+    <div className="navbar fixed top-0 left-0 z-40 bg-primary-content">
       <div className="navbar-start"></div>
       <div className="navbar-center">
         <NavbarSearch />
@@ -20,7 +20,7 @@ const Navbar = () => {
             </label>
             <ul
               tabIndex={0}
-              className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
+              className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-primary-content p-2 shadow"
             >
               <li>
                 <a className="justify-between">Profile</a>
