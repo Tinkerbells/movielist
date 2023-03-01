@@ -1,4 +1,6 @@
+import { IconProvider } from "@/UI";
 import { signIn, useSession } from "next-auth/react";
+import { RiErrorWarningLine } from "react-icons/ri";
 
 export const LoginModal = () => {
   const { data: sessionData } = useSession();
@@ -12,12 +14,17 @@ export const LoginModal = () => {
             className="sm:modal-middle modal cursor-pointer"
           >
             <label className="modal-box w-1/6" htmlFor="">
-              <h3 className="text-center text-lg font-bold">
-                Please login to use this feature
-              </h3>
-              <div className="modal-action">
+              <div className="alert alert-warning shadow-lg">
+                <div>
+                  <IconProvider size="1.5rem">
+                    <RiErrorWarningLine />
+                  </IconProvider>
+                  <span>Please login to use this feature!</span>
+                </div>
+              </div>
+              <div className="modal-action ">
                 <label
-                  className="btn-primary btn-wide btn"
+                  className="btn-outline btn-primary btn-wide btn"
                   onClick={() => void signIn()}
                 >
                   Login
