@@ -56,23 +56,21 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
       {sessionData && (
         <>
           {isLiked ? (
-            <button
-              onClick={handleClick}
-              className="absolute flex h-full w-full justify-center"
-            >
+            <div className="absolute flex h-full w-full justify-center">
               <motion.div
-                initial={{ scale: 0, x: "100%", y: "-100%" }}
-                animate={{ scale: 1, x: 0, y: "100%" }}
-                className="mt-[40%]"
+                initial={{ scale: 0, x: "100%", y: "-30%" }}
+                animate={{ scale: 1, x: 0, y: "30%" }}
               >
-                <IconProvider
-                  className="fill-red-600 transition duration-200 ease-in-out hover:fill-white"
-                  size="3.75rem"
-                >
-                  <AiFillHeart />
-                </IconProvider>
+                <button onClick={handleClick}>
+                  <IconProvider
+                    className="fill-red-600 transition duration-200 ease-in-out hover:fill-white"
+                    size="3.75rem"
+                  >
+                    <AiFillHeart />
+                  </IconProvider>
+                </button>
               </motion.div>
-            </button>
+            </div>
           ) : (
             <button
               className="group btn-circle btn absolute right-0 m-4 border-none bg-opacity-50"

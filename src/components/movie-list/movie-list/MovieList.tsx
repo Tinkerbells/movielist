@@ -29,22 +29,28 @@ export const MovieList: FC<MovieListProps> = ({ movies }) => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-8">
-      {!isLoading ? (
-        movies.map((movie) => (
-          <MovieListItem
-            key={movie.movieId}
-            movieId={movie.movieId}
-            title={movie.title}
-            releaseDate={movie.releaseDate}
-            overview={movie.overview}
-            posterPath={movie.posterPath}
-            isFavorite={
-              !!favoriteMovies?.find((e) => e.movieId === movie.movieId)
-            }
-          />
-        ))
+      {movies.length === 0 ? (
+        <div>Zero favorites movies</div>
       ) : (
-        <Spinner className="place-self-center" />
+        <>
+          {!isLoading ? (
+            movies.map((movie) => (
+              <MovieListItem
+                key={movie.movieId}
+                movieId={movie.movieId}
+                title={movie.title}
+                releaseDate={movie.releaseDate}
+                overview={movie.overview}
+                posterPath={movie.posterPath}
+                isFavorite={
+                  !!favoriteMovies?.find((e) => e.movieId === movie.movieId)
+                }
+              />
+            ))
+          ) : (
+            <Spinner className="place-self-center" />
+          )}
+        </>
       )}
     </div>
   );
