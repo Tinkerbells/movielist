@@ -96,10 +96,10 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
         />
       </figure>
       <div className="card-body flex h-24 flex-col px-4 py-2">
-        <p className="card-title text-base">{title}</p>
+        <p className="2xl:text-sm card-title text-base">{title}</p>
         <p className="text-sm">{formatReleaseDate(releaseDate)}</p>
       </div>
-      <div className="absolute bottom-0 right-0 my-3 mx-0 flex items-center gap-1 px-3 text-base font-bold">
+      <div className="absolute bottom-0 right-0 my-3 mx-0 flex items-center gap-1 px-3 text-sm font-bold">
         <IconProvider className="fill-yellow-400" size="1.25rem">
           <AiFillStar />
         </IconProvider>

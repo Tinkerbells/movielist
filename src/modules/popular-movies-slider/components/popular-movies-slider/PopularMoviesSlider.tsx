@@ -22,22 +22,22 @@ export const PopularMoviesSlider = () => {
     {
       breakpoints: {
         "(min-width: 640px)": {
-          slides: { perView: 1, spacing: 5 },
-        },
-        "(min-width: 768px)": {
           slides: { perView: 2, spacing: 5 },
         },
-        "(min-width: 1024px)": {
-          slides: { perView: 3, spacing: 10 },
+        "(min-width: 768px)": {
+          slides: { perView: 3, spacing: 5 },
         },
-        "(min-width: 1280px)": {
+        "(min-width: 1024px)": {
           slides: { perView: 4, spacing: 10 },
         },
-        "(min-width: 1536px)": {
+        "(min-width: 1280px)": {
           slides: { perView: 5, spacing: 10 },
         },
-        "(min-width: 1800px)": {
+        "(min-width: 1536px)": {
           slides: { perView: 6, spacing: 10 },
+        },
+        "(min-width: 1800px)": {
+          slides: { perView: 7, spacing: 10 },
         },
         "(min-width: 2560px)": {
           slides: { perView: 8, spacing: 10 },

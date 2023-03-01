@@ -17,7 +17,8 @@ const MovieListItem: FC<MovieListItemType> = ({
   const { data: sessionData } = useSession();
   const [isLiked, setIsLiked] = useState(isFavorite);
 
-  const { refetch } = api.movie.getFavorites.useQuery();
+  const { refetch, isFetching } = api.movie.getFavorites.useQuery();
+  const [isLoading, setIsLoading] = useState(isFetching);
   //
   const addFavorite = api.movie.addFavorite.useMutation();
 
@@ -26,6 +27,8 @@ const MovieListItem: FC<MovieListItemType> = ({
   });
 
   const handleClick = () => {
+    setIsLoading(true);
+    setIsLiked(!isLiked);
     if (isLiked) {
       void deleteFavorite.mutate({
         movieId: movieId,
@@ -49,20 +52,23 @@ const MovieListItem: FC<MovieListItemType> = ({
       <div className="absolute right-0 m-4">
         {sessionData ? (
           <button
-            className="group btn-circle btn border-none bg-opacity-50"
+            className={`group btn-circle btn border-none bg-opacity-50 ${
+              isLoading && "loading"
+            }`}
             onClick={handleClick}
           >
-            <IconProvider
-              className={`fill-${
-                isLiked
-                  ? "red-600 group-hover:fill-white"
-                  : "white group-hover:fill-red-600"
-              } transition duration-200 ease-in-out`}
-              size="2rem"
-            >
-              {}
-              <AiFillHeart />
-            </IconProvider>
+            {!isLoading ? (
+              <IconProvider
+                className={`fill-${
+                  isLiked
+                    ? "red-600 group-hover:fill-white"
+                    : "white group-hover:fill-red-600"
+                } transition duration-200 ease-in-out`}
+                size="2rem"
+              >
+                <AiFillHeart />
+              </IconProvider>
+            ) : null}
           </button>
         ) : null}
       </div>

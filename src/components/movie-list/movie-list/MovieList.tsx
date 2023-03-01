@@ -19,13 +19,7 @@ interface MovieListProps {
 }
 
 export const MovieList: FC<MovieListProps> = ({ movies }) => {
-  const {
-    data: favoriteMovies,
-    isLoading,
-    isFetching,
-  } = api.movie.getFavorites.useQuery(undefined, {
-    staleTime: 1000 * 10,
-  });
+  const { data: favoriteMovies, isLoading } = api.movie.getFavorites.useQuery();
 
   return (
     <div className="flex flex-col items-center justify-center gap-8">
