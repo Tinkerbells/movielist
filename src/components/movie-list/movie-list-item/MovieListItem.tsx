@@ -1,7 +1,6 @@
 import { formatReleaseDate } from "@/helpers/formatReleaseDate";
-import { IconProvider, Spinner } from "@/UI";
+import { IconProvider } from "@/UI";
 import { api } from "@/utils/api";
-import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { FC, useState } from "react";
@@ -19,10 +18,9 @@ const MovieListItem: FC<MovieListItemType> = ({
   const [isLiked, setIsLiked] = useState(isFavorite);
 
   const { refetch } = api.movie.getFavorites.useQuery();
+  //
+  const addFavorite = api.movie.addFavorite.useMutation();
 
-  const addFavorite = api.movie.addFavorite.useMutation({
-    onSuccess: () => void refetch(),
-  });
   const deleteFavorite = api.movie.deleteFavorite.useMutation({
     onSuccess: () => void refetch(),
   });

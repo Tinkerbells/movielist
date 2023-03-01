@@ -1,4 +1,3 @@
-import { useLayoutStore } from "@/store/layoutStore";
 import { Spinner } from "@/UI";
 import { api, RouterOutputs } from "@/utils/api";
 import { FC } from "react";
@@ -20,18 +19,17 @@ interface MovieListProps {
 }
 
 export const MovieList: FC<MovieListProps> = ({ movies }) => {
-  const isSidebarCollapsed = useLayoutStore(
-    (state) => state.isSidebarCollapsed
-  );
   const {
     data: favoriteMovies,
     isLoading,
     isFetching,
-  } = api.movie.getFavorites.useQuery();
+  } = api.movie.getFavorites.useQuery(undefined, {
+    staleTime: 1000 * 10,
+  });
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-8">
-      {!isLoading && !isFetching ? (
+    <div className="flex flex-col items-center justify-center gap-8">
+      {!isLoading ? (
         movies.map((movie) => (
           <MovieListItem
             key={movie.movieId}

@@ -5,9 +5,22 @@ import { api } from "@/utils/api";
 
 export const FavoriteMoviesList = () => {
   const { data: favoriteMovies, isLoading } = api.movie.getFavorites.useQuery();
-  const isSidebarCollapsed = useLayoutStore(
-    (state) => state.isSidebarCollapsed
-  );
+  // const { data: favoriteMovies, isLoading } = api.tmdb.popularMovies.useQuery(
+  //   undefined,
+  //   {
+  //     select: (data) =>
+  //       data.results.map((e) => {
+  //         return {
+  //           movieId: e.id,
+  //           title: e.title,
+  //           releaseDate: e.release_date,
+  //           overview: e.overview,
+  //           posterPath: e.poster_path,
+  //         };
+  //       }),
+  //   }
+  // );
+
   return (
     <div className="flex h-full w-full justify-center py-24">
       {!isLoading && favoriteMovies ? (
