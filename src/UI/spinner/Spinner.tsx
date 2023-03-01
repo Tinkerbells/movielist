@@ -7,7 +7,7 @@ export const Spinner: FC<SpinnerProps> = ({ className }) => {
     <div role="status" className={className}>
       <svg
         aria-hidden="true"
-        className="h-10 w-10 animate-spin fill-primary text-primary-content"
+        className="h-8 w-8 animate-spin fill-base-content text-base-100"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
