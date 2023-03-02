@@ -3,7 +3,7 @@ import { IconProvider } from "@/UI";
 import { api } from "@/utils/api";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { MovieListItemType } from "../movie-list/MovieList";
 const MovieListItem: FC<MovieListItemType> = ({
@@ -15,26 +15,29 @@ const MovieListItem: FC<MovieListItemType> = ({
   isFavorite,
 }) => {
   const { data: sessionData } = useSession();
-  const [isLiked, setIsLiked] = useState(isFavorite);
 
-  const { refetch, isFetching } = api.movie.getFavorites.useQuery();
-  const [isLoading, setIsLoading] = useState(isFetching);
-  //
-  const addFavorite = api.movie.addFavorite.useMutation();
+  const { refetch } = api.movie.getFavorites.useQuery();
 
-  const deleteFavorite = api.movie.deleteFavorite.useMutation({
-    onSuccess: () => void refetch(),
-  });
+  const { mutate: addFavorite, isLoading: isAddLoading } =
+    api.movie.addFavorite.useMutation({
+      onSuccess: async () => {
+        await refetch();
+      },
+    });
+  const { mutate: deleteFavorite, isLoading: isDeleteLoading } =
+    api.movie.deleteFavorite.useMutation({
+      onSuccess: async () => {
+        await refetch();
+      },
+    });
 
   const handleClick = () => {
-    setIsLoading(true);
-    setIsLiked(!isLiked);
-    if (isLiked) {
-      void deleteFavorite.mutate({
+    if (isFavorite) {
+      void deleteFavorite({
         movieId: movieId,
       });
     } else {
-      void addFavorite.mutate({
+      void addFavorite({
         posterPath: posterPath,
         title: title,
         movieId: movieId,
@@ -53,14 +56,14 @@ const MovieListItem: FC<MovieListItemType> = ({
         {sessionData ? (
           <button
             className={`group btn-circle btn border-none bg-opacity-50 ${
-              isLoading && "loading"
+              (isAddLoading || isDeleteLoading) && "loading"
             }`}
             onClick={handleClick}
           >
-            {!isLoading ? (
+            {!isAddLoading && !isDeleteLoading ? (
               <IconProvider
                 className={`fill-${
-                  isLiked
+                  isFavorite
                     ? "red-600 group-hover:fill-white"
                     : "white group-hover:fill-red-600"
                 } transition duration-200 ease-in-out`}

@@ -4,7 +4,7 @@ import { AiFillHeart, AiFillStar } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { api } from "@/utils/api";
 import { formatReleaseDate } from "@/helpers/formatReleaseDate";
-import { IconProvider } from "@/UI";
+import { IconProvider, Spinner } from "@/UI";
 import { useSession } from "next-auth/react";
 
 interface PopularMovieCardProps {
@@ -27,17 +27,28 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
   overview,
 }) => {
   const { data: sessionData } = useSession();
-  const [isLiked, setIsLiked] = useState<boolean>(isFavorite || false);
-  const addFavorite = api.movie.addFavorite.useMutation();
-  const deleteFavorite = api.movie.deleteFavorite.useMutation();
+  const { refetch } = api.movie.getFavorites.useQuery();
+
+  const { mutate: addFavorite, isLoading: isAddLoading } =
+    api.movie.addFavorite.useMutation({
+      onSuccess: async () => {
+        await refetch();
+      },
+    });
+  const { mutate: deleteFavorite, isLoading: isDeleteLoading } =
+    api.movie.deleteFavorite.useMutation({
+      onSuccess: async () => {
+        await refetch();
+      },
+    });
 
   const handleClick = () => {
-    if (isLiked) {
-      void deleteFavorite.mutate({
+    if (isFavorite) {
+      void deleteFavorite({
         movieId: movieId,
       });
     } else {
-      void addFavorite.mutate({
+      void addFavorite({
         posterPath: posterPath,
         title: title,
         movieId: movieId,
@@ -45,53 +56,55 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
         overview: overview,
       });
     }
-    setIsLiked(!isLiked);
   };
   return (
     <div
-      className="card glass relative overflow-hidden pb-3"
+      className="card glass overflow-hidden pb-3"
       onClick={() => console.log("clicked")}
     >
       {/* TODO replace with nextjs Image tag  */}
       {sessionData && (
-        <>
-          {isLiked ? (
-            <div className="absolute flex h-full w-full justify-center">
-              <motion.div
-                initial={{ scale: 0, x: "100%", y: "-30%" }}
-                animate={{ scale: 1, x: 0, y: "30%" }}
-              >
-                <button onClick={handleClick}>
-                  <IconProvider
-                    className="fill-red-600 transition duration-200 ease-in-out hover:fill-white"
-                    size="3.75rem"
-                  >
-                    <AiFillHeart />
-                  </IconProvider>
-                </button>
-              </motion.div>
-            </div>
-          ) : (
+        <div className="absolute h-full w-full">
+          <motion.div
+            initial={{ x: "100%", y: 0 }}
+            animate={{
+              x: isFavorite ? 0 : "100%",
+              y: isFavorite ? "30%" : 0,
+            }}
+            className="flex h-full w-full flex-col"
+          >
             <button
-              className="group btn-circle btn absolute right-0 m-4 border-none bg-opacity-50"
+              className={`${
+                isFavorite
+                  ? "place-self-center"
+                  : "group btn-circle btn -ml-16 mt-4 border-none bg-opacity-50"
+              } ${
+                (isDeleteLoading || isAddLoading) && "loading btn-circle btn"
+              }`}
               onClick={handleClick}
             >
               <IconProvider
-                className="fill-red-white transition duration-200 ease-in-out group-hover:fill-red-600"
-                size="1.75rem"
+                className={`${
+                  isFavorite
+                    ? "fill-red-600  hover:fill-white"
+                    : "fill-white group-hover:fill-red-600"
+                } transition duration-200 ease-in-out ${
+                  (isDeleteLoading || isAddLoading) && "hidden"
+                }`}
+                size={`${isFavorite ? "3.75rem" : "1.75rem"}`}
               >
                 <AiFillHeart />
               </IconProvider>
             </button>
-          )}
-        </>
+          </motion.div>
+        </div>
       )}
       <figure className="p-2.5">
         <img
           src={`https://image.tmdb.org/t/p/w500${posterPath}`}
           alt={title}
           className={`rounded-box h-full w-full ${
-            isLiked && "z-[-1] brightness-50"
+            isFavorite && "z-[-1] brightness-50"
           }`}
         />
       </figure>
