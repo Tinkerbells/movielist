@@ -1,12 +1,12 @@
-import { MovieListItemType } from "@/types/movie";
 import { Spinner } from "@/UI";
 import { api } from "@/utils/api";
 import { FC } from "react";
-import MovieListItem from "../movie-list-item/MovieListItem";
 import { motion } from "framer-motion";
+import { MovieCardType } from "@/types/movie";
+import { MovieCard } from "@/components/movie-card/MovieCard";
 
 interface MovieListProps {
-  movies: MovieListItemType[];
+  movies: MovieCardType[];
 }
 
 export const MovieList: FC<MovieListProps> = ({ movies }) => {
@@ -23,7 +23,7 @@ export const MovieList: FC<MovieListProps> = ({ movies }) => {
         <>
           {!isLoading ? (
             movies.map((movie) => (
-              <MovieListItem
+              <MovieCard
                 key={movie.movieId}
                 movieId={movie.movieId}
                 title={movie.title}
@@ -34,6 +34,7 @@ export const MovieList: FC<MovieListProps> = ({ movies }) => {
                 isLiked={
                   !!likedMovies?.find((e) => e.movieId === movie.movieId)
                 }
+                variant="horizontal"
               />
             ))
           ) : (

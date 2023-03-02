@@ -6,4 +6,4 @@ interface IMovieLiked {
 
 type MovieType = Omit<RouterOutputs["movie"]["getLiked"][0], "id" | "userId">;
 
-export type MovieListItemType = MovieType & IMovieLiked;
+export type MovieCardType = MovieType & IMovieLiked;

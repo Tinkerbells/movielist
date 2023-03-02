@@ -1,9 +1,9 @@
+import { MovieCard } from "@/components";
 import { useLayoutStore } from "@/store/layoutStore";
 import { Spinner } from "@/UI";
 import { api } from "@/utils/api";
 import { useKeenSlider } from "keen-slider/react";
 import { useEffect, useState } from "react";
-import PopularMovieCard from "../popular-movie-card/PopularMovieCard";
 
 export const PopularMoviesSlider = () => {
   const { data: popularMovies, isLoading: isPopularMoviesLoading } =
@@ -109,7 +109,7 @@ export const PopularMoviesSlider = () => {
               } px-1`}
               key={movie.id}
             >
-              <PopularMovieCard
+              <MovieCard
                 posterPath={movie.poster_path}
                 title={movie.title}
                 movieId={movie.id}
@@ -117,6 +117,7 @@ export const PopularMoviesSlider = () => {
                 overview={movie.overview}
                 releaseDate={movie.release_date}
                 rating={movie.vote_average}
+                variant="vertical"
               />
             </div>
           ))}

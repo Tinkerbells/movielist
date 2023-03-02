@@ -13,6 +13,7 @@ const Sidebar = () => {
     setIsCollapsed: state.setIsSidebarCollapsed,
   }));
   const router = useRouter();
+
   return (
     <>
       <button

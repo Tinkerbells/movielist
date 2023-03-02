@@ -1,32 +1,41 @@
-// import Image from "next/image";
-import { FC } from "react";
-import { AiFillHeart, AiFillStar } from "react-icons/ai";
-import { motion } from "framer-motion";
+import { MovieCardType } from "@/types/movie";
 import { api } from "@/utils/api";
-import { formatReleaseDate } from "@/helpers/formatReleaseDate";
-import { IconProvider } from "@/UI";
 import { useSession } from "next-auth/react";
-import { MovieListItemType } from "@/types/movie";
+import { motion } from "framer-motion";
+import { FC } from "react";
+import { IconProvider } from "@/UI";
+import { AiFillHeart, AiFillStar } from "react-icons/ai";
+import { formatReleaseDate } from "@/helpers/formatReleaseDate";
 
-const PopularMovieCard: FC<MovieListItemType> = ({
-  posterPath,
-  title,
+const CardVariants = ["horizontal", "vertical"] as const;
+
+type CardVariantType = (typeof CardVariants)[number];
+
+interface MovieCardVariant {
+  variant: CardVariantType;
+}
+
+export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
   movieId,
-  isLiked,
+  title,
   releaseDate,
   overview,
+  posterPath,
+  isLiked,
   rating,
+  variant,
 }) => {
   const { data: sessionData } = useSession();
+
   const { refetch } = api.movie.getLiked.useQuery();
 
-  const { mutate: setLike, isLoading: isSetLoading } =
+  const { mutate: setLiked, isLoading: isSetLoading } =
     api.movie.setLiked.useMutation({
       onSuccess: async () => {
         await refetch();
       },
     });
-  const { mutate: deleteLike, isLoading: isDeleteLoading } =
+  const { mutate: deleteLiked, isLoading: isDeleteLoading } =
     api.movie.deleteLiked.useMutation({
       onSuccess: async () => {
         await refetch();
@@ -35,11 +44,11 @@ const PopularMovieCard: FC<MovieListItemType> = ({
 
   const handleClick = () => {
     if (isLiked) {
-      void deleteLike({
+      void deleteLiked({
         movieId: movieId,
       });
     } else {
-      void setLike({
+      void setLiked({
         posterPath: posterPath,
         title: title,
         movieId: movieId,
@@ -49,6 +58,61 @@ const PopularMovieCard: FC<MovieListItemType> = ({
       });
     }
   };
+  if (variant === "horizontal") {
+    return (
+      <motion.div
+        className="card card-side h-52 w-5/6 bg-primary-content shadow-xl"
+        // href="/"
+        layout
+      >
+        <div className="absolute right-0 m-4">
+          {sessionData ? (
+            <button
+              className={`group btn-circle btn border-none bg-opacity-50 ${
+                (isSetLoading || isDeleteLoading) && "loading"
+              }`}
+              onClick={handleClick}
+            >
+              {!isSetLoading && !isDeleteLoading ? (
+                <IconProvider
+                  className={`fill-${
+                    isLiked
+                      ? "red-600 group-hover:fill-white"
+                      : "white group-hover:fill-red-600"
+                  } transition duration-200 ease-in-out`}
+                  size="2rem"
+                >
+                  <AiFillHeart />
+                </IconProvider>
+              ) : null}
+            </button>
+          ) : null}
+        </div>
+        <div>
+          <figure className="h-full w-36">
+            <img
+              src={`https://image.tmdb.org/t/p/w500/${posterPath}`}
+              alt="Movie"
+              className="h-full rounded-l-2xl"
+            />
+          </figure>
+        </div>
+        <div className="card-body py-5">
+          <h2 className="card-title">
+            {title}
+            <span className="flex items-center gap-1 text-base font-bold">
+              <IconProvider className="fill-yellow-400" size="1.25rem">
+                <AiFillStar />
+              </IconProvider>
+              {rating}
+            </span>
+          </h2>
+          <p className="text-info-content">{formatReleaseDate(releaseDate)}</p>
+          <p>{overview}</p>
+        </div>
+      </motion.div>
+    );
+  }
   return (
     <div
       className="card glass overflow-hidden pb-3"
@@ -113,5 +177,3 @@ const PopularMovieCard: FC<MovieListItemType> = ({
     </div>
   );
 };
-
-export default PopularMovieCard;
