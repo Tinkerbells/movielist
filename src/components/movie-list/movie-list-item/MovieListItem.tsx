@@ -1,38 +1,40 @@
-import { formatReleaseDate } from "@/helpers/formatReleaseDate";
+import { FC } from "react";
+import { MovieListItemType } from "@/types/movie";
+import { AiFillHeart, AiFillStar } from "react-icons/ai";
 import { IconProvider } from "@/UI";
+import Link from "next/link";
 import { api } from "@/utils/api";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { FC, useEffect, useState } from "react";
-import { AiFillHeart } from "react-icons/ai";
-import { MovieListItemType } from "../movie-list/MovieList";
+import { formatReleaseDate } from "@/helpers/formatReleaseDate";
+
 const MovieListItem: FC<MovieListItemType> = ({
   movieId,
   title,
   releaseDate,
   overview,
   posterPath,
-  isFavorite,
+  isLiked,
+  rating,
 }) => {
   const { data: sessionData } = useSession();
 
-  const { refetch } = api.movie.getFavorites.useQuery();
+  const { refetch } = api.movie.getLiked.useQuery();
 
   const { mutate: addFavorite, isLoading: isAddLoading } =
-    api.movie.addFavorite.useMutation({
+    api.movie.setLiked.useMutation({
       onSuccess: async () => {
         await refetch();
       },
     });
   const { mutate: deleteFavorite, isLoading: isDeleteLoading } =
-    api.movie.deleteFavorite.useMutation({
+    api.movie.deleteLiked.useMutation({
       onSuccess: async () => {
         await refetch();
       },
     });
 
   const handleClick = () => {
-    if (isFavorite) {
+    if (isLiked) {
       void deleteFavorite({
         movieId: movieId,
       });
@@ -43,6 +45,7 @@ const MovieListItem: FC<MovieListItemType> = ({
         movieId: movieId,
         releaseDate: releaseDate,
         overview: overview,
+        rating: rating,
       });
     }
   };
@@ -63,7 +66,7 @@ const MovieListItem: FC<MovieListItemType> = ({
             {!isAddLoading && !isDeleteLoading ? (
               <IconProvider
                 className={`fill-${
-                  isFavorite
+                  isLiked
                     ? "red-600 group-hover:fill-white"
                     : "white group-hover:fill-red-600"
                 } transition duration-200 ease-in-out`}
@@ -85,7 +88,15 @@ const MovieListItem: FC<MovieListItemType> = ({
         </figure>
       </div>
       <div className="card-body py-5">
-        <h2 className="card-title">{title}</h2>
+        <h2 className="card-title">
+          {title}
+          <span className="flex items-center gap-1 text-base font-bold">
+            <IconProvider className="fill-yellow-400" size="1.25rem">
+              <AiFillStar />
+            </IconProvider>
+            {rating}
+          </span>
+        </h2>
         <p className="text-info-content">{formatReleaseDate(releaseDate)}</p>
         <p>{overview}</p>
       </div>

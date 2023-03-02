@@ -1,16 +1,13 @@
 import { FC, HTMLAttributes } from "react";
 interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
-  size?: string;
 }
 export const Spinner: FC<SpinnerProps> = ({ className }) => {
   return (
     <div role="status" className={className}>
       <svg
         aria-hidden="true"
-        className={`${
-          className ? "h-full w-full" : "h-8 w-8"
-        } animate-spin fill-base-content text-base-100`}
+        className="h-10 w-10 animate-spin fill-base-content text-base-100"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

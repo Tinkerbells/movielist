@@ -48,9 +48,9 @@ const Sidebar = () => {
             </li>
             <li>
               <NavButton
-                href="/favorites "
-                title="Favorites"
-                isActive={router.pathname === "/favorites"}
+                href="/liked-movies"
+                title="Liked movies"
+                isActive={router.pathname === "/liked-movies"}
               >
                 <AiFillHeart />
               </NavButton>

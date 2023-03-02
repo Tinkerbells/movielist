@@ -1,28 +1,22 @@
+import { MovieListItemType } from "@/types/movie";
 import { Spinner } from "@/UI";
-import { api, RouterOutputs } from "@/utils/api";
+import { api } from "@/utils/api";
 import { FC } from "react";
 import MovieListItem from "../movie-list-item/MovieListItem";
-
-interface IFavorite {
-  isFavorite?: boolean;
-}
-
-type MovieType = Omit<
-  RouterOutputs["movie"]["getFavorites"][0],
-  "id" | "userId"
->;
-
-export type MovieListItemType = MovieType & IFavorite;
+import { motion } from "framer-motion";
 
 interface MovieListProps {
   movies: MovieListItemType[];
 }
 
 export const MovieList: FC<MovieListProps> = ({ movies }) => {
-  const { data: favoriteMovies, isLoading } = api.movie.getFavorites.useQuery();
+  const { data: likedMovies, isLoading } = api.movie.getLiked.useQuery();
 
   return (
-    <div className="flex flex-col items-center justify-center gap-8">
+    <motion.div
+      className="flex flex-col items-center justify-center gap-8"
+      layout
+    >
       {movies.length === 0 ? (
         <div>Zero favorites movies</div>
       ) : (
@@ -36,8 +30,9 @@ export const MovieList: FC<MovieListProps> = ({ movies }) => {
                 releaseDate={movie.releaseDate}
                 overview={movie.overview}
                 posterPath={movie.posterPath}
-                isFavorite={
-                  !!favoriteMovies?.find((e) => e.movieId === movie.movieId)
+                rating={movie.rating}
+                isLiked={
+                  !!likedMovies?.find((e) => e.movieId === movie.movieId)
                 }
               />
             ))
@@ -46,6 +41,6 @@ export const MovieList: FC<MovieListProps> = ({ movies }) => {
           )}
         </>
       )}
-    </div>
+    </motion.div>
   );
 };

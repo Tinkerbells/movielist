@@ -1,11 +1,15 @@
 import { SearchInput } from "@/UI";
 import { useSession, signOut, signIn } from "next-auth/react";
 import React, { ChangeEvent, useState } from "react";
+import { motion } from "framer-motion";
 
 const Navbar = () => {
   const { data: sessionData } = useSession();
   return (
-    <div className="navbar fixed top-0 left-0 z-40 bg-primary-content">
+    <motion.div
+      className="navbar fixed top-0 left-0 z-40 bg-primary-content"
+      layout
+    >
       <div className="navbar-start"></div>
       <div className="navbar-center">
         <NavbarSearch />
@@ -41,7 +45,7 @@ const Navbar = () => {
           </button>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

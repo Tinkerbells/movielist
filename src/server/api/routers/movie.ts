@@ -7,7 +7,7 @@ import {
 } from "@/server/api/trpc";
 
 export const movieRouter = createTRPCRouter({
-  addFavorite: protectedProcedure
+  setLiked: protectedProcedure
     .input(
       z.object({
         movieId: z.number(),
@@ -15,41 +15,35 @@ export const movieRouter = createTRPCRouter({
         posterPath: z.string(),
         releaseDate: z.string(),
         overview: z.string(),
+        rating: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.favorite.create({
+      return ctx.prisma.likedMovie.create({
         data: {
           movieId: input.movieId,
           title: input.title,
           posterPath: input.posterPath,
           releaseDate: input.releaseDate,
           overview: input.overview,
+          rating: input.rating,
         },
       });
     }),
-  deleteFavorite: protectedProcedure
+  deleteLiked: protectedProcedure
     .input(
       z.object({
         movieId: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.favorite.deleteMany({
+      return ctx.prisma.likedMovie.deleteMany({
         where: {
           movieId: input.movieId,
         },
       });
     }),
-  getFavorites: protectedProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.favorite.findMany();
+  getLiked: protectedProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.likedMovie.findMany();
   }),
-
-  findFavorite: protectedProcedure
-    .input(z.object({ movieId: z.number() }))
-    .query(async ({ ctx, input }) => {
-      return ctx.prisma.favorite.findFirst({
-        where: { movieId: input.movieId },
-      });
-    }),
 });

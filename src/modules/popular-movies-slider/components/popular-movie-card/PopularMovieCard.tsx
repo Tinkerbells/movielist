@@ -1,59 +1,51 @@
 // import Image from "next/image";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { api } from "@/utils/api";
 import { formatReleaseDate } from "@/helpers/formatReleaseDate";
-import { IconProvider, Spinner } from "@/UI";
+import { IconProvider } from "@/UI";
 import { useSession } from "next-auth/react";
+import { MovieListItemType } from "@/types/movie";
 
-interface PopularMovieCardProps {
-  posterPath: string;
-  title: string;
-  movieId: number;
-  isFavorite?: boolean;
-  releaseDate: string;
-  rating: number;
-  overview: string;
-}
-
-const PopularMovieCard: FC<PopularMovieCardProps> = ({
+const PopularMovieCard: FC<MovieListItemType> = ({
   posterPath,
   title,
   movieId,
-  isFavorite,
+  isLiked,
   releaseDate,
-  rating,
   overview,
+  rating,
 }) => {
   const { data: sessionData } = useSession();
-  const { refetch } = api.movie.getFavorites.useQuery();
+  const { refetch } = api.movie.getLiked.useQuery();
 
-  const { mutate: addFavorite, isLoading: isAddLoading } =
-    api.movie.addFavorite.useMutation({
+  const { mutate: setLike, isLoading: isSetLoading } =
+    api.movie.setLiked.useMutation({
       onSuccess: async () => {
         await refetch();
       },
     });
-  const { mutate: deleteFavorite, isLoading: isDeleteLoading } =
-    api.movie.deleteFavorite.useMutation({
+  const { mutate: deleteLike, isLoading: isDeleteLoading } =
+    api.movie.deleteLiked.useMutation({
       onSuccess: async () => {
         await refetch();
       },
     });
 
   const handleClick = () => {
-    if (isFavorite) {
-      void deleteFavorite({
+    if (isLiked) {
+      void deleteLike({
         movieId: movieId,
       });
     } else {
-      void addFavorite({
+      void setLike({
         posterPath: posterPath,
         title: title,
         movieId: movieId,
         releaseDate: releaseDate,
         overview: overview,
+        rating: rating,
       });
     }
   };
@@ -68,30 +60,30 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
           <motion.div
             initial={{ x: "100%", y: 0 }}
             animate={{
-              x: isFavorite ? 0 : "100%",
-              y: isFavorite ? "30%" : 0,
+              x: isLiked ? 0 : "100%",
+              y: isLiked ? "30%" : 0,
             }}
             className="flex h-full w-full flex-col"
           >
             <button
               className={`${
-                isFavorite
+                isLiked
                   ? "place-self-center"
                   : "group btn-circle btn -ml-16 mt-4 border-none bg-opacity-50"
               } ${
-                (isDeleteLoading || isAddLoading) && "loading btn-circle btn"
+                (isDeleteLoading || isSetLoading) && "loading btn-circle btn"
               }`}
               onClick={handleClick}
             >
               <IconProvider
                 className={`${
-                  isFavorite
+                  isLiked
                     ? "fill-red-600  hover:fill-white"
                     : "fill-white group-hover:fill-red-600"
                 } transition duration-200 ease-in-out ${
-                  (isDeleteLoading || isAddLoading) && "hidden"
+                  (isDeleteLoading || isSetLoading) && "hidden"
                 }`}
-                size={`${isFavorite ? "3.75rem" : "1.75rem"}`}
+                size={`${isLiked ? "3.75rem" : "1.75rem"}`}
               >
                 <AiFillHeart />
               </IconProvider>
@@ -104,7 +96,7 @@ const PopularMovieCard: FC<PopularMovieCardProps> = ({
           src={`https://image.tmdb.org/t/p/w500${posterPath}`}
           alt={title}
           className={`rounded-box h-full w-full ${
-            isFavorite && "z-[-1] brightness-50"
+            isLiked && "z-[-1] brightness-50"
           }`}
         />
       </figure>
