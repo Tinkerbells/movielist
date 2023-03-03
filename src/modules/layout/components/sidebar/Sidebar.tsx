@@ -15,6 +15,7 @@ const Sidebar = () => {
   const router = useRouter();
 
   return (
+    // TODO add swap button
     <>
       <button
         className="btn-ghost btn-circle btn fixed left-0 top-0 z-50 m-2.5"

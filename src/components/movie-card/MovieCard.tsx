@@ -7,6 +7,7 @@ import { IconProvider } from "@/UI";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
 import { formatReleaseDate } from "@/helpers/formatReleaseDate";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 const CardVariants = ["horizontal", "vertical"] as const;
 
@@ -34,12 +35,24 @@ export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
     api.movie.setLiked.useMutation({
       onSuccess: async () => {
         await refetch();
+        toast(`Movie has been added to liked`, {
+          autoClose: 500,
+          pauseOnHover: false,
+          theme: "dark",
+          icon: <AiFillHeart />,
+        });
       },
     });
   const { mutate: deleteLiked, isLoading: isDeleteLoading } =
     api.movie.deleteLiked.useMutation({
       onSuccess: async () => {
         await refetch();
+        toast(`Movie has been removed from liked`, {
+          autoClose: 500,
+          pauseOnHover: false,
+          theme: "dark",
+          icon: <AiFillHeart />,
+        });
       },
     });
 
