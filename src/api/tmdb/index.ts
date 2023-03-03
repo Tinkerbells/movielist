@@ -1,1 +1,1 @@
-export * from "./getPopuarMovies";
+export * from "./api";

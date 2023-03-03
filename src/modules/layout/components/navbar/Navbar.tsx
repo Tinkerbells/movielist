@@ -50,7 +50,6 @@ const NavbarSearch = () => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
-  console.log(search);
   return <SearchInput value={search} onChange={handleChange} />;
 };
 

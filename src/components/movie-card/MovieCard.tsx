@@ -6,6 +6,7 @@ import { FC } from "react";
 import { IconProvider } from "@/UI";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
 import { formatReleaseDate } from "@/helpers/formatReleaseDate";
+import Link from "next/link";
 
 const CardVariants = ["horizontal", "vertical"] as const;
 
@@ -42,7 +43,8 @@ export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
       },
     });
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (isLiked) {
       void deleteLiked({
         movieId: movieId,
@@ -62,7 +64,6 @@ export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
     return (
       <motion.div
         className="card card-side h-52 w-5/6 bg-primary-content shadow-xl"
-        // href="/"
         layout
       >
         <div className="absolute right-0 m-4">
@@ -71,7 +72,7 @@ export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
               className={`group btn-circle btn border-none bg-opacity-50 ${
                 (isSetLoading || isDeleteLoading) && "loading"
               }`}
-              onClick={handleClick}
+              onClick={(e) => handleClick(e)}
             >
               {!isSetLoading && !isDeleteLoading ? (
                 <IconProvider
@@ -89,13 +90,15 @@ export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
           ) : null}
         </div>
         <div>
-          <figure className="h-full w-36">
-            <img
-              src={`https://image.tmdb.org/t/p/w500/${posterPath}`}
-              alt="Movie"
-              className="h-full rounded-l-2xl"
-            />
-          </figure>
+          <Link href={`/movie/${movieId}`}>
+            <figure className="h-full w-36">
+              <img
+                src={`https://image.tmdb.org/t/p/w500/${posterPath}`}
+                alt="Movie"
+                className="h-full rounded-l-2xl"
+              />
+            </figure>
+          </Link>
         </div>
         <div className="card-body py-5">
           <h2 className="card-title">
@@ -114,9 +117,9 @@ export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
     );
   }
   return (
-    <div
+    <Link
       className="card glass overflow-hidden pb-3"
-      onClick={() => console.log("clicked")}
+      href={`/movie/${movieId}`}
     >
       {/* TODO replace with nextjs Image tag  */}
       {sessionData && (
@@ -137,7 +140,7 @@ export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
               } ${
                 (isDeleteLoading || isSetLoading) && "loading btn-circle btn"
               }`}
-              onClick={handleClick}
+              onClick={(e) => handleClick(e)}
             >
               <IconProvider
                 className={`${
@@ -174,6 +177,6 @@ export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
         </IconProvider>
         {rating}
       </div>
-    </div>
+    </Link>
   );
 };

@@ -19,7 +19,6 @@ export const LikedMovieList = () => {
   //       }),
   //   }
   // );
-
   return (
     <div className="flex h-full w-full justify-center py-24">
       {!isLoading && likedMovies ? (

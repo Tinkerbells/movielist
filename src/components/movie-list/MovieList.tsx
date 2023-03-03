@@ -18,7 +18,7 @@ export const MovieList: FC<MovieListProps> = ({ movies }) => {
       layout
     >
       {movies.length === 0 ? (
-        <div>Zero favorites movies</div>
+        <div>None liked movies</div>
       ) : (
         <>
           {!isLoading ? (
@@ -38,7 +38,7 @@ export const MovieList: FC<MovieListProps> = ({ movies }) => {
               />
             ))
           ) : (
-            <Spinner className="place-self-center" />
+            <Spinner />
           )}
         </>
       )}
