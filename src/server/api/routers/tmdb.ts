@@ -16,7 +16,7 @@ export const tmdbMovieRouter = createTRPCRouter({
         movieId: z.string(),
       })
     )
-    .mutation(async ({ input }) => {
+    .query(async ({ input }) => {
       return getMovie(input.movieId);
     }),
 });
