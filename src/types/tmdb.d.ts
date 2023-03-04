@@ -7,14 +7,14 @@ export interface TmdbResponse<T> {
 
 export interface MovieShort {
   adult: boolean;
-  backdrop_path: string;
+  backdrop_path: string | null;
   genre_ids: number[];
   id: number;
   original_language: string;
   original_title: string;
   overview: string;
   popularity: number;
-  poster_path: string;
+  poster_path: string | null;
   release_date: string;
   title: string;
   video: boolean;
@@ -24,7 +24,7 @@ export interface MovieShort {
 
 export interface Movie {
   adult: boolean;
-  backdrop_path: string;
+  backdrop_path: string | null;
   belongs_to_collection: any;
   budget: number;
   genres: Genre[];
@@ -33,14 +33,14 @@ export interface Movie {
   imdb_id: string;
   original_language: string;
   original_title: string;
-  overview: string;
+  overview: string | null;
   popularity: number;
-  poster_path: string;
+  poster_path: string | null;
   production_companies: ProductionCompany[];
   production_countries: ProductionCountry[];
   release_date: string;
   revenue: number;
-  runtime: number;
+  runtime: number | null;
   spoken_languages: SpokenLanguage[];
   status: string;
   tagline: string;
