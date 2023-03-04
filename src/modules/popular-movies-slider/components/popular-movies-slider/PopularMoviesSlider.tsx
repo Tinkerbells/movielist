@@ -95,9 +95,11 @@ export const PopularMoviesSlider = () => {
       <div className="flex w-full justify-between">
         <h2 className="ml-4 text-2xl font-bold">What's Popular</h2>
       </div>
-      {isLikedMoviesLoading && isPopularMoviesLoading ? (
-        <Spinner className="place-self-center" />
-      ) : (
+      {!isPopularMoviesLoading &&
+      !isLikedMoviesLoading &&
+      likedMovies &&
+      popularMovies &&
+      slider ? (
         <div
           ref={sliderRef}
           className="keen-slider rounded-box mx-4 flex overflow-hidden"
@@ -122,6 +124,8 @@ export const PopularMoviesSlider = () => {
             </div>
           ))}
         </div>
+      ) : (
+        <Spinner className="mt-40 place-self-center" />
       )}
     </div>
   );
