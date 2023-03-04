@@ -79,7 +79,7 @@ export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
         className="card card-side h-52 w-5/6 bg-primary-content shadow-xl"
         layout
       >
-        <div className="absolute right-0 m-4">
+        <div className="absolute sm:right-0 sm:m-4">
           {sessionData ? (
             <button
               className={`group btn-circle btn border-none bg-opacity-50 ${
@@ -114,17 +114,21 @@ export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
           </Link>
         </div>
         <div className="card-body py-5">
-          <h2 className="card-title">
+          <h2 className="card-title text-sm lg:text-xl">
             {title}
-            <span className="flex items-center gap-1 text-base font-bold">
+            <span className="flex items-center gap-1">
               <IconProvider className="fill-yellow-400" size="1.25rem">
                 <AiFillStar />
               </IconProvider>
               {rating}
             </span>
           </h2>
-          <p className="text-info-content">{formatReleaseDate(releaseDate)}</p>
-          <p>{overview}</p>
+          <p className="text-xs text-info-content lg:text-base">
+            {formatReleaseDate(releaseDate)}
+          </p>
+          <p className="invisible text-xs sm:visible lg:text-base">
+            {overview}
+          </p>
         </div>
       </motion.div>
     );
@@ -181,7 +185,7 @@ export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
         />
       </figure>
       <div className="card-body flex h-24 flex-col px-4 py-2">
-        <p className="2xl:text-sm card-title text-base">{title}</p>
+        <p className="card-title text-base 2xl:text-sm">{title}</p>
         <p className="text-sm">{formatReleaseDate(releaseDate)}</p>
       </div>
       <div className="absolute bottom-0 right-0 my-3 mx-0 flex items-center gap-1 px-3 text-sm font-bold">
