@@ -21,7 +21,7 @@ export const PopularMoviesCarousel = () => {
         <h2 className="ml-4 text-2xl font-bold">What's Popular</h2>
       </div>
       {!isPopularMoviesLoading && popularMovies ? (
-        <Carousel autoplay={true} setIsDragged={setIsDragged}>
+        <Carousel autoplay={true} setIsDragged={setIsDragged} drag={true} loop={true}>
           {popularMovies?.results.map((movie, index) => (
             <div
               className={`keen-slider__slide number-slide${index} ${

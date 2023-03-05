@@ -183,7 +183,7 @@ const MoviePage: NextPage = () => {
           </div>
           <div className="mt-8 flex w-full flex-col gap-4">
             <h2 className="text-2xl font-bold">Cast</h2>
-            <Carousel autoplay={true} setIsDragged={() => {}}>
+            <Carousel autoplay={false} drag={true} loop={false}>
               {credits.cast.map((actor, index) => (
                 <div
                   className={`keen-slider__slide number-slide${index}`}

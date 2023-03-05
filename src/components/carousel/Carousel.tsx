@@ -5,11 +5,15 @@ import { FC, ReactNode, useEffect } from "react";
 interface CarouselProps {
   children: ReactNode;
   autoplay: boolean;
-  setIsDragged: (value: boolean) => void;
+  loop: boolean;
+  drag: boolean;
+  setIsDragged?: (value: boolean) => void;
 }
 export const Carousel: FC<CarouselProps> = ({
   children,
   autoplay,
+  loop,
+  drag,
   setIsDragged,
 }) => {
   const isSidebarCollapsed = useLayoutStore(
@@ -41,14 +45,14 @@ export const Carousel: FC<CarouselProps> = ({
           slides: { perView: 10, spacing: 10 },
         },
       },
-      loop: true,
+      loop: loop,
       renderMode: "performance",
-      drag: true,
+      drag: drag,
       dragStarted: () => {
-        setIsDragged(true);
+        setIsDragged && setIsDragged(true);
       },
       dragEnded: () => {
-        setIsDragged(false);
+        setIsDragged && setIsDragged(false);
       },
     },
     [
@@ -92,7 +96,7 @@ export const Carousel: FC<CarouselProps> = ({
   return (
     <div
       ref={sliderRef}
-      className="keen-slider rounded-box mx-4 flex w-full overflow-hidden"
+      className="keen-slider rounded-box flex w-full overflow-hidden"
     >
       {children}
     </div>
