@@ -16,12 +16,12 @@ export const PopularMoviesCarousel = () => {
   const [isDragged, setIsDragged] = useState<boolean>(false);
 
   return (
-    <div className="mt-24 flex flex-col gap-4">
+    <div className="mt-24 flex flex-col place-items-center gap-4 px-24">
       <div className="flex w-full justify-between">
         <h2 className="ml-4 text-2xl font-bold">What's Popular</h2>
       </div>
       {!isPopularMoviesLoading && popularMovies ? (
-        <Carousel autoplay={false} setIsDragged={setIsDragged}>
+        <Carousel autoplay={true} setIsDragged={setIsDragged}>
           {popularMovies?.results.map((movie, index) => (
             <div
               className={`keen-slider__slide number-slide${index} ${
@@ -47,7 +47,7 @@ export const PopularMoviesCarousel = () => {
           ))}
         </Carousel>
       ) : (
-        <Spinner className="mt-40 place-self-center" />
+        <Spinner className="place-self-center" />
       )}
     </div>
   );

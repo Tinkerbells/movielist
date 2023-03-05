@@ -92,7 +92,7 @@ export const Carousel: FC<CarouselProps> = ({
   return (
     <div
       ref={sliderRef}
-      className="keen-slider rounded-box mx-4 flex overflow-hidden"
+      className="keen-slider rounded-box mx-4 flex w-full overflow-hidden"
     >
       {children}
     </div>
