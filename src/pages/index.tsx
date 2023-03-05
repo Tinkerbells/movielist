@@ -1,11 +1,10 @@
-import { PopularMoviesSlider } from "@/modules/popular-movies-slider";
+import { PopularMoviesCarousel } from "@/modules/popular-movies-carousel";
 import { type NextPage } from "next";
 
 const Home: NextPage = () => {
   return (
     <div className="flex h-full w-full flex-col">
-      <PopularMoviesSlider />
-      {/* {!sessionData ? <SignInButton /> : null} */}
+      <PopularMoviesCarousel />
     </div>
   );
 };
