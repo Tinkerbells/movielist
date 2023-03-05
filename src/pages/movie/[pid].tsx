@@ -10,6 +10,7 @@ import fire from "@/assets/images/fire.png";
 import Image from "next/image";
 import Link from "next/link";
 import { getPersonByJob } from "@/helpers/getPersonByJob";
+import { Carousel } from "@/components";
 
 const MoviePage: NextPage = () => {
   const router = useRouter();
@@ -29,7 +30,7 @@ const MoviePage: NextPage = () => {
       }
     );
   return (
-    <div className="flex h-full w-full justify-center px-48">
+    <div className="h-full w-full px-48">
       {!isMovieLoading && !isCreditsLoading && credits && movie ? (
         <div className="min-h-screen px-20 pt-36">
           <div className="flex flex-col gap-10 md:flex-row">
@@ -180,7 +181,33 @@ const MoviePage: NextPage = () => {
               </p>
             </section>
           </div>
-          <div>Hello</div>
+          <div className="mt-8 flex w-full flex-col gap-4">
+            <h2 className="text-2xl font-bold">Cast</h2>
+            <Carousel autoplay={true} setIsDragged={() => {}}>
+              {credits.cast.map((actor, index) => (
+                <div
+                  className={`keen-slider__slide number-slide${index}`}
+                  key={actor.id}
+                >
+                  <div className="card glass overflow-hidden">
+                    <figure className="p-2.5">
+                      <img
+                        src={`https://image.tmdb.org/t/p/w300${actor.profile_path}`}
+                        alt={actor.name}
+                        className="rounded-box"
+                      />
+                    </figure>
+                    <div className="card-body flex h-20 flex-col px-4 py-0">
+                      <p className="card-title text-base 2xl:text-sm">
+                        {actor.name}
+                      </p>
+                      <p className="text-sm">{actor.character}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </Carousel>
+          </div>
         </div>
       ) : (
         <Spinner className="place-self-center" />

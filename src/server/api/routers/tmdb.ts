@@ -26,6 +26,9 @@ export const tmdbMovieRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
-      return getCredits(input.movieId);
+      const credits = await getCredits(input.movieId);
+      credits.cast = credits.cast.sort((a, b) => b.popularity - a.popularity);
+      credits.cast = credits.cast.filter((actor) => !!actor.profile_path);
+      return credits;
     }),
 });
