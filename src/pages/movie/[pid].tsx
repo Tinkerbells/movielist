@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import fire from "@/assets/images/fire.png";
 import Image from "next/image";
 import Link from "next/link";
+import { getPersonByJob } from "@/helpers/getPersonByJob";
 
 const MoviePage: NextPage = () => {
   const router = useRouter();
@@ -30,7 +31,7 @@ const MoviePage: NextPage = () => {
   return (
     <div className="flex h-full w-full justify-center px-48">
       {!isMovieLoading && !isCreditsLoading && credits && movie ? (
-        <div className="min-h-screen bg-primary-content px-20 pt-36">
+        <div className="min-h-screen px-20 pt-36">
           <div className="flex flex-col gap-10 md:flex-row">
             <section className="flex flex-col">
               <div className="indicator avatar">
@@ -59,7 +60,7 @@ const MoviePage: NextPage = () => {
                   />
                 </figure>
               </div>
-              <div className="mt-2 flex gap-4">
+              <div className="mt-3 flex gap-4">
                 {movie.genres.slice(0, 4).map((genre) => (
                   <div
                     className="badge-outline badge p-3 text-xs"
@@ -143,25 +144,34 @@ const MoviePage: NextPage = () => {
                 <p className="text-lg">
                   {movie.revenue === 0 ? "??" : formatRevenue(movie.revenue)}
                 </p>
-                <h2 className="text-lg font-bold">Director:</h2>
-                <Link href="/" className="text-lg hover:underline">
-                  {credits.crew.find(
-                    (person) => person.job.toLowerCase() === "director"
-                  )?.original_name || "??"}
-                </Link>
-                <h2 className="text-lg font-bold">Writer:</h2>
-                <Link href="/" className="text-lg hover:underline">
-                  {credits.crew.find(
-                    (person) => person.job.toLowerCase() === "writer"
-                  )?.original_name || "??"}
-                </Link>
-                <h2 className="text-lg font-bold">Camera operator:</h2>
-                <Link href="/" className="text-lg hover:underline">
-                  {credits.crew.find(
-                    (person) =>
-                      person.job.toLowerCase() === "director of photography"
-                  )?.original_name || "??"}
-                </Link>
+                {getPersonByJob(credits.crew, "director").name && (
+                  <>
+                    <h2 className="text-lg font-bold">Director:</h2>
+                    <Link href="/" className="text-lg hover:underline">
+                      {getPersonByJob(credits.crew, "director").name}
+                    </Link>
+                  </>
+                )}
+                {getPersonByJob(credits.crew, "writer").name && (
+                  <>
+                    <h2 className="text-lg font-bold">Writer:</h2>
+                    <Link href="/" className="text-lg hover:underline">
+                      {getPersonByJob(credits.crew, "writer").name}
+                    </Link>
+                  </>
+                )}
+                {getPersonByJob(credits.crew, "director of photography")
+                  .name && (
+                  <>
+                    <h2 className="text-lg font-bold">Camera operator:</h2>
+                    <Link href="/" className="text-lg hover:underline">
+                      {
+                        getPersonByJob(credits.crew, "director of photography")
+                          .name
+                      }
+                    </Link>
+                  </>
+                )}
               </div>
               <p>
                 <span className="text-2xl font-bold">Overview</span>
