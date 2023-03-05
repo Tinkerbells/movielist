@@ -8,21 +8,29 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import fire from "@/assets/images/fire.png";
 import Image from "next/image";
+import Link from "next/link";
 
 const MoviePage: NextPage = () => {
   const router = useRouter();
   const movieId = typeof router.query?.pid === "string" ? router.query.pid : "";
-  const { data: movie, isLoading } = api.tmdb.getMovie.useQuery(
+  const { data: movie, isLoading: isMovieLoading } = api.tmdb.getMovie.useQuery(
     { movieId: movieId },
     {
       enabled: movieId.length > 0,
     }
   );
 
+  const { data: credits, isLoading: isCreditsLoading } =
+    api.tmdb.getCredits.useQuery(
+      { movieId: movieId },
+      {
+        enabled: movieId.length > 0,
+      }
+    );
   return (
-    <div className="flex h-full w-full justify-center px-80">
-      {!isLoading && movie ? (
-        <div className="mt-28">
+    <div className="flex h-full w-full justify-center px-48">
+      {!isMovieLoading && !isCreditsLoading && credits && movie ? (
+        <div className="min-h-screen bg-primary-content px-20 pt-36">
           <div className="flex flex-col gap-10 md:flex-row">
             <section className="flex flex-col">
               <div className="indicator avatar">
@@ -47,7 +55,7 @@ const MoviePage: NextPage = () => {
                   <img
                     src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
                     alt={movie.title}
-                    className="max-w-sm rounded-lg shadow-2xl"
+                    className="max-w-sm rounded-lg"
                   />
                 </figure>
               </div>
@@ -93,16 +101,18 @@ const MoviePage: NextPage = () => {
                   </p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <h2 className="text-lg font-bold">Production companies</h2>
+              <div className="grid grid-cols-2 gap-5">
+                <h2 className="text-lg font-bold">Production companies:</h2>
                 <div className="flex gap-4">
                   {movie.production_companies.map((company) => (
                     <div key={company.id} className="grid place-items-center">
                       {company.logo_path ? (
-                        <img
-                          src={`https://image.tmdb.org/t/p/w300/${company.logo_path}`}
-                          className="max-h-10"
-                        />
+                        <div className="tooltip" data-tip={company.name}>
+                          <img
+                            src={`https://image.tmdb.org/t/p/w300/${company.logo_path}`}
+                            className="max-h-10"
+                          />
+                        </div>
                       ) : (
                         <p>{company.name}</p>
                       )}
@@ -117,20 +127,41 @@ const MoviePage: NextPage = () => {
                       key={country.iso_3166_1}
                     >
                       {hasFlag(country.iso_3166_1) ? (
-                        <img
-                          alt={country.name}
-                          src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${country.iso_3166_1}.svg`}
-                          className="h-5 rounded-md"
-                        />
+                        <div className="tooltip" data-tip={country.name}>
+                          <img
+                            alt={country.name}
+                            src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${country.iso_3166_1}.svg`}
+                            className="h-5 rounded-md"
+                          />
+                        </div>
                       ) : null}
                       <span className="text-lg">{country.iso_3166_1}</span>
                     </div>
                   ))}
                 </div>
-                <h2 className="text-lg font-bold">Revenue: </h2>
+                <h2 className="text-lg font-bold">Revenue:</h2>
                 <p className="text-lg">
                   {movie.revenue === 0 ? "??" : formatRevenue(movie.revenue)}
                 </p>
+                <h2 className="text-lg font-bold">Director:</h2>
+                <Link href="/" className="text-lg hover:underline">
+                  {credits.crew.find(
+                    (person) => person.job.toLowerCase() === "director"
+                  )?.original_name || "??"}
+                </Link>
+                <h2 className="text-lg font-bold">Writer:</h2>
+                <Link href="/" className="text-lg hover:underline">
+                  {credits.crew.find(
+                    (person) => person.job.toLowerCase() === "writer"
+                  )?.original_name || "??"}
+                </Link>
+                <h2 className="text-lg font-bold">Camera operator:</h2>
+                <Link href="/" className="text-lg hover:underline">
+                  {credits.crew.find(
+                    (person) =>
+                      person.job.toLowerCase() === "director of photography"
+                  )?.original_name || "??"}
+                </Link>
               </div>
               <p>
                 <span className="text-2xl font-bold">Overview</span>
@@ -139,7 +170,7 @@ const MoviePage: NextPage = () => {
               </p>
             </section>
           </div>
-          <div></div>
+          <div>Hello</div>
         </div>
       ) : (
         <Spinner className="place-self-center" />
