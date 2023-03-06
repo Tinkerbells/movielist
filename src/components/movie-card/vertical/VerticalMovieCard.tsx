@@ -1,11 +1,12 @@
 import { MovieCardType } from "@/types/movie";
 import { FC } from "react";
 import { motion } from "framer-motion";
-import { IconProvider } from "@/UI";
+import { IconProvider, TMDBImageLoader } from "@/UI";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
 import Link from "next/link";
 import { formatReleaseDate } from "@/helpers/formatReleaseDate";
 import { MovieCardProps } from "../MovieCard";
+import Image from "next/image";
 
 export const VerticalMovieCard: FC<MovieCardType & MovieCardProps> = ({
   movieId,
@@ -57,10 +58,13 @@ export const VerticalMovieCard: FC<MovieCardType & MovieCardProps> = ({
         </motion.div>
       )}
       <figure className="w-full p-2.5">
-        <img
-          src={`https://image.tmdb.org/t/p/w300${posterPath}`}
+        <Image
+          src={posterPath}
           alt={title}
-          className={`rounded-box ${isLiked && "z-[-1] brightness-50"}`}
+          width={300}
+          height={300}
+          loader={TMDBImageLoader}
+          className="h-full rounded-l-2xl"
         />
       </figure>
       <div className="card-body flex h-24 flex-col px-4 py-2">

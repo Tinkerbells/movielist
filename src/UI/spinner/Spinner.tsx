@@ -1,10 +1,16 @@
 import { FC, HTMLAttributes } from "react";
 interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
+  global?: boolean;
 }
-export const Spinner: FC<SpinnerProps> = ({ className }) => {
+export const Spinner: FC<SpinnerProps> = ({ className, global }) => {
   return (
-    <div role="status" className={className}>
+    <div
+      role="status"
+      className={`${className} ${
+        global && "grid h-full w-full place-items-center"
+      }`}
+    >
       <svg
         aria-hidden="true"
         className="h-10 w-10 animate-spin fill-base-content text-base-100"

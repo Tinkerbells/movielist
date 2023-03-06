@@ -1,6 +1,6 @@
 import { formatRuntime } from "@/helpers/formatRuntime";
 import { formatRevenue } from "@/helpers/formatRevenue";
-import { Spinner } from "@/UI";
+import { Spinner, TMDBImageLoader } from "@/UI";
 import { api } from "@/utils/api";
 import { hasFlag } from "country-flag-icons";
 import dayjs from "dayjs";
@@ -32,7 +32,7 @@ const MoviePage: NextPage = () => {
   return (
     <div className="h-full w-full px-48">
       {!isMovieLoading && !isCreditsLoading && credits && movie ? (
-        <div className="min-h-screen px-20 pt-36">
+        <div className="min-h-screen px-10 pt-28">
           <div className="flex flex-col gap-10 md:flex-row">
             <section className="flex flex-col">
               <div className="indicator avatar">
@@ -54,10 +54,13 @@ const MoviePage: NextPage = () => {
                   </span>
                 ) : null}
                 <figure>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
+                  <Image
+                    src={movie.poster_path!!}
                     alt={movie.title}
-                    className="max-w-sm rounded-lg"
+                    width={500}
+                    height={500}
+                    className="max-w-[300px] rounded-lg"
+                    loader={TMDBImageLoader}
                   />
                 </figure>
               </div>
@@ -191,13 +194,15 @@ const MoviePage: NextPage = () => {
                 >
                   <div className="card glass overflow-hidden">
                     <figure className="p-2.5">
-                      <img
+                      <Image
                         src={`https://image.tmdb.org/t/p/w300${actor.profile_path}`}
+                        width={300}
+                        height={200}
                         alt={actor.name}
                         className="rounded-box"
                       />
                     </figure>
-                    <div className="card-body flex h-20 flex-col px-4 py-0">
+                    <div className="card-body flex h-24 flex-col px-4 py-0">
                       <p className="card-title text-base 2xl:text-sm">
                         {actor.name}
                       </p>
@@ -210,7 +215,7 @@ const MoviePage: NextPage = () => {
           </div>
         </div>
       ) : (
-        <Spinner className="place-self-center" />
+        <Spinner global={true} />
       )}
     </div>
   );

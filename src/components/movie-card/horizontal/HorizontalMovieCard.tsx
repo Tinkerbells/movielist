@@ -1,11 +1,12 @@
 import { MovieCardType } from "@/types/movie";
 import { FC } from "react";
 import { motion } from "framer-motion";
-import { IconProvider } from "@/UI";
+import { IconProvider, TMDBImageLoader } from "@/UI";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
 import Link from "next/link";
 import { formatReleaseDate } from "@/helpers/formatReleaseDate";
 import { MovieCardProps } from "../MovieCard";
+import Image from "next/image";
 
 export const HorizontalMovieCard: FC<MovieCardType & MovieCardProps> = ({
   movieId,
@@ -51,9 +52,12 @@ export const HorizontalMovieCard: FC<MovieCardType & MovieCardProps> = ({
       <div>
         <Link href={`/movie/${movieId}`}>
           <figure className="h-full w-36">
-            <img
-              src={`https://image.tmdb.org/t/p/w300/${posterPath}`}
-              alt="Movie"
+            <Image
+              src={posterPath}
+              alt={title}
+              width={300}
+              height={300}
+              loader={TMDBImageLoader}
               className="h-full rounded-l-2xl"
             />
           </figure>
