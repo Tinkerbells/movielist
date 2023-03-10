@@ -19,7 +19,6 @@ export const Carousel: FC<CarouselProps> = ({
   const isSidebarCollapsed = useLayoutStore(
     (state) => state.isSidebarCollapsed
   );
-
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>(
     {
       breakpoints: {

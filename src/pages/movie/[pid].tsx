@@ -67,7 +67,7 @@ const MoviePage: NextPage = () => {
               <div className="mt-3 flex gap-4">
                 {movie.genres.slice(0, 4).map((genre) => (
                   <div
-                    className="badge-outline badge p-3 text-xs"
+                    className="badge-outline badge p-3 text-sm"
                     key={genre.id}
                   >
                     {genre.name}

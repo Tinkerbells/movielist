@@ -9,11 +9,7 @@ import { VerticalMovieCard } from "./vertical/VerticalMovieCard";
 
 const CardVariants = ["horizontal", "vertical"] as const;
 
-type CardVariantType = (typeof CardVariants)[number];
-
-interface MovieCardVariant {
-  variant: CardVariantType;
-}
+type VariantType = (typeof CardVariants)[number];
 
 export interface MovieCardProps {
   isAuth: boolean;
@@ -21,7 +17,7 @@ export interface MovieCardProps {
   isRemoveLoading: boolean;
   handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
-export const MovieCard: FC<MovieCardType & MovieCardVariant> = ({
+export const MovieCard: FC<MovieCardType & { variant: VariantType }> = ({
   movieId,
   title,
   releaseDate,

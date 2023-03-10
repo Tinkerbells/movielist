@@ -2,7 +2,7 @@ import { MovieList } from "@/components";
 import { Spinner } from "@/UI";
 import { api } from "@/utils/api";
 
-export const LikedMovieList = () => {
+export const Watchlist = () => {
   const { data: likedMovies, isLoading } = api.movie.getLiked.useQuery();
   // const { data: favoriteMovies, isLoading } = api.tmdb.popularMovies.useQuery(
   //   undefined,
