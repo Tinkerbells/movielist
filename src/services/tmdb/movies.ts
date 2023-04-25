@@ -1,7 +1,7 @@
-import { tmdbApi } from "@/api/tmdb";
+import { tmdbApi } from "@/api";
 import { Credits, Movie, MovieShort, TmdbResponse } from "@/types/tmdb";
 
-const api = tmdbApi();
+const api = tmdbApi.request;
 
 export const getPopularMovies = async () => {
   const res = await api.get<TmdbResponse<MovieShort>>("/movie/popular");
@@ -15,5 +15,12 @@ export const getMovie = async (movieId: string) => {
 
 export const getCredits = async (movieId: string) => {
   const res = await api.get<Credits>(`/movie/${movieId}/credits`);
+  return res.data;
+};
+
+export const searchMovie = async (query: string) => {
+  const res = await api.get<TmdbResponse<MovieShort>>(`/search/movie`, {
+    params: { query: query },
+  });
   return res.data;
 };

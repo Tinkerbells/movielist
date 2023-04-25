@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getPersonByJob } from "@/helpers/getPersonByJob";
 import { Carousel } from "@/components";
+import { BlurImage } from "@/UI/blur-image/BlurImage";
 
 const MoviePage: NextPage = () => {
   const router = useRouter();
@@ -54,12 +55,11 @@ const MoviePage: NextPage = () => {
                   </span>
                 ) : null}
                 <figure>
-                  <Image
+                  <BlurImage
                     src={movie.poster_path!!}
                     alt={movie.title}
-                    width={500}
-                    height={500}
-                    className="max-w-[300px] rounded-lg"
+                    width={300}
+                    height={300}
                     loader={TMDBImageLoader}
                   />
                 </figure>
@@ -67,7 +67,7 @@ const MoviePage: NextPage = () => {
               <div className="mt-3 flex gap-4">
                 {movie.genres.slice(0, 4).map((genre) => (
                   <div
-                    className="badge-outline badge p-3 text-sm"
+                    className="badge-outline badge p-3 text-xs"
                     key={genre.id}
                   >
                     {genre.name}
@@ -192,14 +192,12 @@ const MoviePage: NextPage = () => {
                   className={`keen-slider__slide number-slide${index}`}
                   key={actor.id}
                 >
-                  <div className="card glass overflow-hidden">
+                  <div className="card glass cursor-pointer overflow-hidden">
                     <figure className="p-2.5">
-                      <Image
-                        src={`https://image.tmdb.org/t/p/w300${actor.profile_path}`}
-                        width={300}
-                        height={200}
+                      <BlurImage
+                        src={actor.profile_path!}
                         alt={actor.name}
-                        className="rounded-box"
+                        loader={TMDBImageLoader}
                       />
                     </figure>
                     <div className="card-body flex h-24 flex-col px-4 py-0">

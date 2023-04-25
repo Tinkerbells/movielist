@@ -4,7 +4,12 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "@/server/api/trpc";
-import { getCredits, getMovie, getPopularMovies } from "@/services/tmdb";
+import {
+  getCredits,
+  getMovie,
+  getPopularMovies,
+  searchMovie,
+} from "@/services/tmdb";
 
 export const tmdbMovieRouter = createTRPCRouter({
   getPopularMovies: publicProcedure.query(async () => {
@@ -18,6 +23,15 @@ export const tmdbMovieRouter = createTRPCRouter({
     )
     .query(async ({ input }) => {
       return getMovie(input.movieId);
+    }),
+  searchMovie: publicProcedure
+    .input(
+      z.object({
+        query: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      return searchMovie(input.query);
     }),
   getCredits: publicProcedure
     .input(

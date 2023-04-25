@@ -6,7 +6,7 @@ import { AiFillHeart, AiFillStar } from "react-icons/ai";
 import Link from "next/link";
 import { formatReleaseDate } from "@/helpers/formatReleaseDate";
 import { MovieCardProps } from "../MovieCard";
-import Image from "next/image";
+import { BlurImage } from "@/UI/blur-image/BlurImage";
 
 export const VerticalMovieCard: FC<MovieCardType & MovieCardProps> = ({
   movieId,
@@ -58,14 +58,7 @@ export const VerticalMovieCard: FC<MovieCardType & MovieCardProps> = ({
         </motion.div>
       )}
       <figure className="w-full p-2.5">
-        <Image
-          src={posterPath}
-          alt={title}
-          width={300}
-          height={300}
-          loader={TMDBImageLoader}
-          className="h-full rounded-l-2xl"
-        />
+        <BlurImage src={posterPath} alt={title} loader={TMDBImageLoader} />
       </figure>
       <div className="card-body flex h-24 flex-col px-4 py-2">
         <p className="card-title text-base 2xl:text-sm">{title}</p>

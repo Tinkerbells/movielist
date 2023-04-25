@@ -28,7 +28,6 @@ export const MovieCard: FC<MovieCardType & { variant: VariantType }> = ({
   variant,
 }) => {
   const { data: sessionData } = useSession();
-
   const { refetch } = api.movie.getLiked.useQuery(undefined, {
     enabled: sessionData?.user !== undefined,
   });
@@ -84,7 +83,7 @@ export const MovieCard: FC<MovieCardType & { variant: VariantType }> = ({
         overview={overview}
         posterPath={posterPath}
         isLiked={isLiked}
-        rating={rating}
+        rating={parseFloat(rating.toFixed(1))}
         isAuth={!!sessionData?.user}
         isAddLoading={isSetLoading}
         isRemoveLoading={isDeleteLoading}
@@ -100,7 +99,7 @@ export const MovieCard: FC<MovieCardType & { variant: VariantType }> = ({
       overview={overview}
       posterPath={posterPath}
       isLiked={isLiked}
-      rating={rating}
+      rating={parseFloat(rating.toFixed(1))}
       isAuth={!!sessionData?.user}
       isAddLoading={isSetLoading}
       isRemoveLoading={isDeleteLoading}

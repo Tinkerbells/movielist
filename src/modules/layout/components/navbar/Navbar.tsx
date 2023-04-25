@@ -1,6 +1,8 @@
 import { SearchInput } from "@/UI";
+import { api } from "@/utils/api";
 import { useSession, signOut, signIn } from "next-auth/react";
-import React, { ChangeEvent, useState } from "react";
+import { useRouter } from "next/router";
+import React, { ChangeEvent, SyntheticEvent, useState } from "react";
 
 const Navbar = () => {
   const { data: sessionData } = useSession();
@@ -46,11 +48,24 @@ const Navbar = () => {
 };
 
 const NavbarSearch = () => {
-  const [search, setSearch] = useState<string>("");
+  const [query, setQuery] = useState<string>("");
+  const router = useRouter();
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
+    setQuery(event.target.value);
   };
-  return <SearchInput value={search} onChange={handleChange} />;
+
+  const handleSumbit = (event: SyntheticEvent) => {
+    event.preventDefault();
+    router.push({ pathname: "/search-movie", query: { query: query } });
+  };
+
+  return (
+    <SearchInput
+      value={query}
+      onChange={handleChange}
+      onSumbit={handleSumbit}
+    />
+  );
 };
 
 export default Navbar;

@@ -1,14 +1,19 @@
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, SyntheticEvent } from "react";
 import { FiSearch } from "react-icons/fi";
 import { IconProvider } from "../icons/IconProvider";
 
 interface SearchInputProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onSumbit: (event: SyntheticEvent) => void;
   value: string;
 }
-export const SearchInput: FC<SearchInputProps> = ({ onChange, value }) => {
+export const SearchInput: FC<SearchInputProps> = ({
+  onChange,
+  onSumbit,
+  value,
+}) => {
   return (
-    <div className="flex min-w-[500px]">
+    <form className="flex min-w-[500px]" onSubmit={onSumbit}>
       <input
         type="text"
         placeholder="Search…"
@@ -16,11 +21,11 @@ export const SearchInput: FC<SearchInputProps> = ({ onChange, value }) => {
         onChange={onChange}
         value={value}
       />
-      <button className="btn-square btn ml-1">
+      <button className="btn-square btn ml-1" type="submit">
         <IconProvider size="1.50rem">
           <FiSearch />
         </IconProvider>
       </button>
-    </div>
+    </form>
   );
 };

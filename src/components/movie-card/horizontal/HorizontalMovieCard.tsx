@@ -1,12 +1,13 @@
 import { MovieCardType } from "@/types/movie";
 import { FC } from "react";
 import { motion } from "framer-motion";
-import { IconProvider, TMDBImageLoader } from "@/UI";
+import { IconProvider, ShortText, TMDBImageLoader } from "@/UI";
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
 import Link from "next/link";
 import { formatReleaseDate } from "@/helpers/formatReleaseDate";
 import { MovieCardProps } from "../MovieCard";
-import Image from "next/image";
+import { BlurImage } from "@/UI/blur-image/BlurImage";
+import { NonePosterImageIcon } from "@/UI/icons/NonePosterImageIcon";
 
 export const HorizontalMovieCard: FC<MovieCardType & MovieCardProps> = ({
   movieId,
@@ -52,14 +53,15 @@ export const HorizontalMovieCard: FC<MovieCardType & MovieCardProps> = ({
       <div>
         <Link href={`/movie/${movieId}`}>
           <figure className="h-full w-36">
-            <Image
-              src={posterPath}
-              alt={title}
-              width={300}
-              height={300}
-              loader={TMDBImageLoader}
-              className="h-full rounded-l-2xl"
-            />
+            {posterPath ? (
+              <BlurImage
+                src={posterPath}
+                alt={title}
+                loader={TMDBImageLoader}
+              />
+            ) : (
+              <NonePosterImageIcon />
+            )}
           </figure>
         </Link>
       </div>
@@ -76,7 +78,11 @@ export const HorizontalMovieCard: FC<MovieCardType & MovieCardProps> = ({
         <p className="text-xs text-info-content lg:text-base">
           {formatReleaseDate(releaseDate)}
         </p>
-        <p className="invisible text-xs sm:visible lg:text-base">{overview}</p>
+        <ShortText
+          className="invisible text-xs sm:visible lg:text-base"
+          text={overview}
+          maxLength={670}
+        />
       </div>
     </motion.div>
   );

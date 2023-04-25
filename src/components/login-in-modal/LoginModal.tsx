@@ -11,7 +11,7 @@ export const LoginModal = () => {
           <input type="checkbox" id="login-modal" className="modal-toggle" />
           <label
             htmlFor="login-modal"
-            className="sm:modal-middle modal cursor-pointer"
+            className="modal cursor-pointer sm:modal-middle"
           >
             <label className="modal-box w-1/6" htmlFor="">
               <div className="alert alert-warning shadow-lg">
